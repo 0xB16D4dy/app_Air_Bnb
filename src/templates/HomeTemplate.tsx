@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../components/Header/Header'
+import Footer from '../components/Footer/Footer';
+import Header from '../components/Header/Header';
 
-type Props = {}
+type Props = {};
 
 export default function HomeTemplate({}: Props) {
   return (
     <>
-    <Header/>
-    <Outlet/>
+      <Header />
+      <Outlet />
+      <Footer />
     </>
-  )
+  );
 }

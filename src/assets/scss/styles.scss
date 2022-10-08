@@ -3,5 +3,12 @@
 
 //component
 @import './components/Header/Header.scss';
+@import './components/Footer/Footer.scss';
+@import './components/CarouselInner/CarouselInner.scss';
+@import './components/CarouselCategory/CarouselCategory.scss';
+
 //themes
 @import './themes/variable';
+
+//pages
+@import './pages/Home/Home.scss';

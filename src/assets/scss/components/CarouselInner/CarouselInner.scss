@@ -1,0 +1,38 @@
+.button-prev-next {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 40px;
+}
+
+.carousel__inner {
+  position: relative;
+  width: 100%;
+}
+
+.ant-btn {
+  background: none;
+  outline: 0;
+  border: none;
+  color: #ffffff;
+  &:active,
+  &:hover,
+  &:focus {
+    background: none;
+    border: none;
+    color: #ffffff;
+    outline: 0;
+  }
+}
+.arrow-left-icon {
+  font-size: 22px;
+}
+.arrow-right-icon {
+  font-size: 22px;
+}

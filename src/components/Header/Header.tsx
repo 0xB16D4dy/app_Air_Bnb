@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button, Divider, Dropdown, Menu } from 'antd';
+import type { MenuProps } from 'antd';
+import { Dropdown, Menu } from 'antd';
+import MenuDivider from 'antd/lib/menu/MenuDivider';
 
 type Props = {};
 
 export default function Header({}: Props) {
+  const [current, setCurrent] = useState<string>('1');
+  const onClick: MenuProps['onClick'] = (e) => {
+    setCurrent(e.key);
+  };
   return (
     <header id='header'>
-      <div className='container'>
-        <div className='navbar__wrapper'>
+      <div className='navbar__wrapper'>
+        <div className='container'>
           <div className='navbar__content'>
             <div className='navbar__icon'>
               <div className='navbar__brand'>
@@ -69,24 +75,104 @@ export default function Header({}: Props) {
                     </div>
                   </div>
                   <div className='navbar__info-right'>
-                    <button className='btn-dropdown'>
-                      <div className='icon__left'>
-                        <img
-                          src={
-                            require('../../assets/icons/icon-menu.svg').default
-                          }
-                          alt='icon-menu'
-                          className='icon-menu'
+                    <Dropdown
+                      overlay={
+                        <Menu
+                          selectedKeys={[current]}
+                          items={[
+                            {
+                              key: '1',
+                              label: (
+                                <NavLink
+                                  // target='_blank'
+                                  // rel='noopener noreferrer'
+                                  to='/register'
+                                  className='register'
+                                >
+                                  Đăng ký
+                                </NavLink>
+                              ),
+                            },
+                            {
+                              key: '2',
+                              label: (
+                                <NavLink
+                                  // target='_blank'
+                                  // rel='noopener noreferrer'
+                                  to='/login'
+                                >
+                                  Đăng nhập
+                                </NavLink>
+                              ),
+                            },
+                            {
+                              key: '3',
+                              label: <MenuDivider />,
+                              className: 'dropdown__divider',
+                            },
+                            {
+                              key: '4',
+                              label: (
+                                <NavLink
+                                  target='_blank'
+                                  rel='noopener noreferrer'
+                                  to='/'
+                                >
+                                  Cho thuê nhà
+                                </NavLink>
+                              ),
+                            },
+                            {
+                              key: '5',
+                              label: (
+                                <NavLink
+                                  target='_blank'
+                                  rel='noopener noreferrer'
+                                  to='/'
+                                >
+                                  Tổ chức trải nghiệm
+                                </NavLink>
+                              ),
+                            },
+                            {
+                              key: '6',
+                              label: (
+                                <NavLink
+                                  target='_blank'
+                                  rel='noopener noreferrer'
+                                  to='/'
+                                >
+                                  Trợ giúp
+                                </NavLink>
+                              ),
+                            },
+                          ]}
+                          onClick={onClick}
                         />
-                      </div>
-                      <div className='icon__right'>
-                        <img
-                          src={require('../../assets/icons/user.svg').default}
-                          alt='icon-user'
-                          className='icon-user'
-                        />
-                      </div>
-                    </button>
+                      }
+                      placement='bottomRight'
+                      trigger={['click']}
+                    >
+                      <button className='btn-dropdown'>
+                        <div className='icon__left'>
+                          <img
+                            src={
+                              require('../../assets/icons/icon-menu.svg')
+                                .default
+                            }
+                            alt='icon-menu'
+                            className='icon-menu'
+                          />
+                        </div>
+                        <div className='icon__right'>
+                          <img
+                            src={require('../../assets/icons/user.svg').default}
+                            alt='icon-user'
+                            className='icon-user'
+                          />
+                        </div>
+                      </button>
+                    </Dropdown>
                   </div>
                 </div>
               </div>
@@ -94,7 +180,6 @@ export default function Header({}: Props) {
           </div>
         </div>
       </div>
-      <span style={{ height: '80px' }}>.</span>
     </header>
   );
 }
