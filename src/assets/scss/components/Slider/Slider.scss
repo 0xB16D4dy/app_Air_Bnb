@@ -18,7 +18,7 @@
 
 .ant-btn {
   background: none;
-  outline: 0;
+  outline: none;
   border: none;
   color: #ffffff;
   &:active,
@@ -27,7 +27,7 @@
     background: none;
     border: none;
     color: #ffffff;
-    outline: 0;
+    outline: none;
   }
 }
 .arrow-left-icon {

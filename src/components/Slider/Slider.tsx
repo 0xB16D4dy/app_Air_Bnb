@@ -5,30 +5,43 @@ import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 
 type Props = {};
 
-export default function CarouselInner({}: Props) {
+export default function Slider({}: Props) {
   const contentStyle: React.CSSProperties = {
-    height: '350px',
-    color: '#fff',
-    lineHeight: '350px',
-    textAlign: 'center',
-    background: '#364d79',
+    width: '100%',
+    height: '600px',
   };
   const slider = useRef<CarouselRef>(null);
   return (
     <>
-      <section id='carousel' className='carousel'>
+      <section id='carousel' className='carousel' style={{paddingBlockStart:'80px'}}>
         <Carousel autoplay ref={slider} className='carousel__inner'>
           <div>
-          <h3 style={contentStyle}>1</h3>
+            <img
+              src={require('../../assets/img/background.jpeg')}
+              style={contentStyle}
+              alt='sss'
+            />
           </div>
           <div>
-            <h3 style={contentStyle}>2</h3>
+            <img
+              src={require('../../assets/img/MOONBORN.jpeg')}
+              style={contentStyle}
+              alt='sss'
+            />
           </div>
           <div>
-            <h3 style={contentStyle}>3</h3>
+            <img
+              src={require('../../assets/img/Sentimental.jpeg')}
+              style={contentStyle}
+              alt='sss'
+            />
           </div>
           <div>
-            <h3 style={contentStyle}>4</h3>
+            <img
+              src={require('../../assets/img/Lesson.jpeg')}
+              style={contentStyle}
+              alt='sss'
+            />
           </div>
         </Carousel>
         <div className='button-prev-next'>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Divider } from 'antd';
-import CarouselInner from '../../components/CarouselInner/CarouselInner';
-import CarouselCategory from '../../components/CarouselCategory/CarouselCategory';
+import Slider from '../../components/Slider/Slider';
+import Product from '../../components/Product/Product';
 
 type Props = {};
 
@@ -10,48 +10,14 @@ export default function Home({}: Props) {
     return (
       <div className='row'>
         <div className='col-3'>
-          <div className='card text-white bg-primary'>
-            <img className='card-img-top' src='holder.js/100px180/' alt='...' />
-            <div className='card-body'>
-              <h4 className='card-title'>Title</h4>
-              <p className='card-text'>Text</p>
-            </div>
-          </div>
-        </div>
-        <div className='col-3'>
-          <div className='card text-white bg-primary'>
-            <img className='card-img-top' src='holder.js/100px180/' alt='...' />
-            <div className='card-body'>
-              <h4 className='card-title'>Title</h4>
-              <p className='card-text'>Text</p>
-            </div>
-          </div>
-        </div>
-        <div className='col-3'>
-          <div className='card text-white bg-primary'>
-            <img className='card-img-top' src='holder.js/100px180/' alt='...' />
-            <div className='card-body'>
-              <h4 className='card-title'>Title</h4>
-              <p className='card-text'>Text</p>
-            </div>
-          </div>
-        </div>
-        <div className='col-3'>
-          <div className='card text-white bg-primary'>
-            <img className='card-img-top' src='holder.js/100px180/' alt='...' />
-            <div className='card-body'>
-              <h4 className='card-title'>Title</h4>
-              <p className='card-text'>Text</p>
-            </div>
-          </div>
+          <Product />
         </div>
       </div>
     );
   };
   return (
     <>
-      
-      <CarouselCategory/>
+      <Slider />
       <section id='Product' className='py-5'>
         <div className='container'>
           <h3 className='text-center'>AirBnb</h3>
