@@ -35,13 +35,20 @@
   justify-content: space-between;
 }
 
-.site-content .site-layout-background {
+.site-content.site-layout-background {
+  .title{
+    display: flex;
+    .content-title{
+      font-size: 32px;
+      font-weight: 600;
+    }
+  }
 }
 
 .userLogin {
   margin: auto 0;
   padding: 0 24px;
-  .name-user{
+  .label-user {
     padding: 0 10px;
     font-size: 16px;
     font-weight: 600;
@@ -59,6 +66,23 @@
       color: #fff;
       background-color: #40a9ff;
       border-color: #40a9ff;
+    }
+  }
+}
+
+.site-header__userLogin-dropdown {
+  width: 150px;
+  .ant-dropdown-menu {
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    .nav-link {
+      padding: 8px 14px;
+      &:hover {
+        background-color: #dddddd;
+      }
     }
   }
 }

@@ -9,6 +9,22 @@
   left: 0;
   right: 0;
   padding: 0 40px;
+  .ant-btn {
+    background: none;
+    outline: none;
+    border: none;
+    color: #ffffff;
+    --antd-wave-shadow-color:transparent;
+    &:active,
+    &:hover,
+    &:focus {
+      background: none;
+      border: none;
+      color: #ffffff;
+      outline: none;
+      --antd-wave-shadow-color:transparent
+    }
+  }
 }
 
 .carousel__inner {
@@ -16,20 +32,6 @@
   width: 100%;
 }
 
-.ant-btn {
-  background: none;
-  outline: none;
-  border: none;
-  color: #ffffff;
-  &:active,
-  &:hover,
-  &:focus {
-    background: none;
-    border: none;
-    color: #ffffff;
-    outline: none;
-  }
-}
 .arrow-left-icon {
   font-size: 22px;
 }

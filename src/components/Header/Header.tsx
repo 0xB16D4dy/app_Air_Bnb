@@ -449,10 +449,12 @@ export default function Header({}: Props) {
                                 },
                               ]}
                               onClick={onClick}
+                              className='navbar__info-dropdown-menu'
                             />
                           }
                           placement='bottomRight'
                           trigger={['click']}
+                          overlayClassName='navbar__info-dropdown'
                         >
                           <button className='btn-dropdown'>
                             <div className='icon__left'>

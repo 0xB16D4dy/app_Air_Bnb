@@ -10,9 +10,46 @@ import {
 import { Layout, Menu, Input, Avatar, Dropdown } from 'antd';
 import TableUser from '../../components/TableUser/TableUser';
 import TableRoom from '../../components/TableRoom/TableRoom';
+import ModalAddAdmin from '../../components/ModalAddAdmin/ModalAddAdmin';
 
 const { Header, Sider, Content } = Layout;
 const { Search } = Input;
+
+const MenuSider = [
+  {
+    key: '1',
+    icon: <UserOutlined />,
+    label: 'Quản lý người dùng',
+  },
+  {
+    key: '2',
+    icon: <EnvironmentOutlined />,
+    label: 'Quản lý thông tin vị trí',
+  },
+  {
+    key: '3',
+    icon: <InfoCircleOutlined />,
+    label: 'Quản lý thông tin phòng',
+  },
+  {
+    key: '4',
+    icon: <KeyOutlined />,
+    label: 'Quản lý đặt phòng',
+  },
+];
+
+const MenuDropdown = [
+  {
+    key: '1',
+    label: <a href='/'>Cập nhật thông tin</a>,
+    className:'nav-link',
+  },
+  {
+    key: '2',
+    label: <a href='/'>Đăng xuất</a>,
+    className:'nav-link',
+  },
+];
 
 type Props = {};
 
@@ -33,28 +70,7 @@ export default function Management({}: Props) {
           mode='inline'
           defaultSelectedKeys={[select]}
           onSelect={(e) => setSelect(e.key)}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'Quản lý người dùng',
-            },
-            {
-              key: '2',
-              icon: <EnvironmentOutlined />,
-              label: 'Quản lý thông tin vị trí',
-            },
-            {
-              key: '3',
-              icon: <InfoCircleOutlined />,
-              label: 'Quản lý thông tin phòng',
-            },
-            {
-              key: '4',
-              icon: <KeyOutlined />,
-              label: 'Quản lý đặt phòng',
-            },
-          ]}
+          items={MenuSider}
         />
       </Sider>
       <Layout className='site-layout'>
@@ -70,25 +86,15 @@ export default function Management({}: Props) {
             }
           )}
           <div className='userLogin'>
-            <span className='name-user'>ADMIN</span>
+            <span className='label-user'>ADMIN</span>
             <Dropdown
-              overlay={
-                <Menu
-                  items={[
-                    {
-                      key: '1',
-                      label: <a href='/'>Cập nhật thông tin</a>,
-                    },
-                    {
-                      key: '2',
-                      label: <a href='/'>Đăng xuất</a>,
-                    },
-                  ]}
-                />
-              }
+              overlay={<Menu items={MenuDropdown} />}
               placement='bottomRight'
+              trigger={['click']}
+              overlayClassName='site-header__userLogin-dropdown'
             >
               <Avatar
+                src='https://joeschmoe.io/api/v1/random'
                 size={{ xs: 24, sm: 32, md: 40 }}
                 icon={<UserOutlined />}
                 className='avatar'
@@ -107,7 +113,8 @@ export default function Management({}: Props) {
             }}
           >
             <div className='title'>
-              <h3>Thêm quản trị viên</h3>
+              <h3 className='content-title'>Quản trị viên</h3>
+              <ModalAddAdmin/>
             </div>
             <Search
               size='large'
