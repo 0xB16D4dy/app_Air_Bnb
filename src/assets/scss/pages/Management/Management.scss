@@ -31,27 +31,34 @@
 }
 
 .site-header.site-layout-background {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .site-content .site-layout-background {
 }
 
 .userLogin {
- margin: auto 0;
- padding: 0 24px;
- .avatar{
+  margin: auto 0;
+  padding: 0 24px;
+  .name-user{
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .avatar {
     cursor: pointer;
- }
+  }
 }
 
-.ant-btn {
-  color: #ffffff;
-  background-color: #1890ff;
-  &:hover {
-    color: #fff;
-    background-color: #40a9ff;
-    border-color: #40a9ff;
+.search-input-dashboard {
+  .ant-btn {
+    color: #ffffff;
+    background-color: #1890ff;
+    &:hover {
+      color: #fff;
+      background-color: #40a9ff;
+      border-color: #40a9ff;
+    }
   }
 }

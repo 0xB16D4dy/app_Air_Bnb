@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Input, Avatar, Dropdown } from 'antd';
 import TableUser from '../../components/TableUser/TableUser';
-import { SelectEventHandler } from 'rc-menu/lib/interface';
+import TableRoom from '../../components/TableRoom/TableRoom';
 
 const { Header, Sider, Content } = Layout;
 const { Search } = Input;
@@ -70,6 +70,7 @@ export default function Management({}: Props) {
             }
           )}
           <div className='userLogin'>
+            <span className='name-user'>ADMIN</span>
             <Dropdown
               overlay={
                 <Menu
@@ -101,7 +102,8 @@ export default function Management({}: Props) {
             style={{
               margin: '24px 16px',
               padding: 24,
-              minHeight: 600,
+              minHeight: 650,
+              height: '100vh',
             }}
           >
             <div className='title'>
@@ -111,9 +113,54 @@ export default function Management({}: Props) {
               size='large'
               placeholder='input search text'
               onSearch={onSearch}
-              enterButton
+              enterButton='Search'
+              className='search-input-dashboard mb-3'
             />
             <TableUser />
+          </Content>
+        ) : select === '2' ? (
+          <Content
+            className='site-content site-layout-background'
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 650,
+              height: '100vh',
+            }}
+          >
+            <div className='title'>
+              <h3>Thêm phòng</h3>
+            </div>
+            <Search
+              size='large'
+              placeholder='input search text'
+              onSearch={onSearch}
+              enterButton='Search'
+              className='search-input-dashboard mb-3'
+            />
+            2
+          </Content>
+        ) : select === '3' ? (
+          <Content
+            className='site-content site-layout-background'
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 650,
+              height: '100vh',
+            }}
+          >
+            <div className='title'>
+              <h3>Thêm phòng</h3>
+            </div>
+            <Search
+              size='large'
+              placeholder='input search text'
+              onSearch={onSearch}
+              enterButton='Search'
+              className='search-input-dashboard mb-3'
+            />
+            <TableRoom />
           </Content>
         ) : (
           <Content
@@ -121,18 +168,21 @@ export default function Management({}: Props) {
             style={{
               margin: '24px 16px',
               padding: 24,
-              minHeight: 600,
+              minHeight: 650,
+              height: '100vh',
             }}
           >
             <div className='title'>
-              <h3>Thêm Phòng</h3>
+              <h3>Thêm phòng</h3>
             </div>
             <Search
               size='large'
               placeholder='input search text'
               onSearch={onSearch}
-              enterButton
+              enterButton='Search'
+              className='search-input-dashboard mb-3'
             />
+            4
           </Content>
         )}
       </Layout>

@@ -28,12 +28,12 @@ root.render(
         <Route path='' element={<HomeTemplate />}>
           <Route index element={<Home />}></Route>
           <Route path='home' element={<Home />}></Route>
-          <Route path='login' element={<Login />}></Route>
           <Route path='detail'>
             <Route path=':id'></Route>
           </Route>
           <Route path='*' element={<Navigate to='' />}></Route>
         </Route>
+        <Route path='login' element={<Login />}></Route>
         <Route path='admin'>
           <Route path='management' element={<Management />}></Route>
         </Route>
