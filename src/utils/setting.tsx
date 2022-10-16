@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 // import { history } from '../index';
 export const config = {
   setCookie: (name:string, value:string, days:number) => {
@@ -46,6 +46,7 @@ export const config = {
   },
   ACCESS_TOKEN: 'accessToken',
   USER_LOGIN: 'userLogin',
+  USER_INFO: 'userInfo'
 };
 
 export const {
@@ -57,6 +58,7 @@ export const {
   getStoreJson,
   ACCESS_TOKEN,
   USER_LOGIN,
+  USER_INFO
 } = config;
 
 const DOMAIN = 'https://airbnbnew.cybersoft.edu.vn/api';
@@ -65,24 +67,24 @@ const TOKEN_CYBERSOFT =
 /* cấu hình request cho tất cả api - response cho tất cả api trả về */
 
 // cấu hình domain gửi đi
-export const http = axios.create({
+export const http:any = axios.create({
   baseURL: DOMAIN,
   timeout: 30000,
 });
 
 // Add a request interceptor
 http.interceptors.request.use(
-  (config) => {
+  (config:AxiosRequestConfig) => {
     const token = getStore(ACCESS_TOKEN);
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${token}`,
-      // TokenCybersoft: TOKEN_CYBERSOFT,
+      TokenCybersoft: TOKEN_CYBERSOFT,
     };
     // config.headers['Content-Type'] = 'application/json';
     return config;
   },
-  (error) => {
+  (error:any) => {
     Promise.reject(error);
   }
 );
@@ -90,10 +92,10 @@ http.interceptors.request.use(
 /* Cấu hình kêt quả trả về */
 
 http.interceptors.response.use(
-  (response) => {
+  (response:AxiosResponse) => {
     return response;
   },
-  (err) => {
+  (err:any) => {
     //const originalRequest = err.config
     if (err.response.status === 400 || err.response.status === 404) {
     //   history.push('/');

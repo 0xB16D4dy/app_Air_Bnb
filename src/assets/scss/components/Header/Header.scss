@@ -193,6 +193,7 @@
                 }
               }
               .navbar__info-right {
+                z-index: 999999;
                 .btn-dropdown {
                   display: flex;
                   align-items: center;

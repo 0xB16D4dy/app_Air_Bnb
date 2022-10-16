@@ -17,6 +17,7 @@ import HomeTemplate from './templates/HomeTemplate';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './assets/scss/styles.scss';
 import Management from './pages/Management/Management';
+import Register from './pages/Register/Register';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -33,7 +34,8 @@ root.render(
           </Route>
           <Route path='*' element={<Navigate to='' />}></Route>
         </Route>
-        <Route path='login' element={<Login />}></Route>
+        {/* <Route path='login' element={<Login />}></Route> */}
+        <Route path='register' element={<Register />}></Route>
         <Route path='admin'>
           <Route path='management' element={<Management />}></Route>
         </Route>
