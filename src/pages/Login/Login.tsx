@@ -1,8 +1,14 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Modal } from "antd";
+import {
+	EyeInvisibleOutlined,
+	EyeTwoTone,
+	LockOutlined,
+	UserOutlined,
+} from "@ant-design/icons";
+import { Button, Form, Input, Modal } from "antd";
 import { NavLink } from "react-router-dom";
 import { useLoginMutation } from "../../redux/signin";
+import toast from "react-hot-toast";
 
 type Props = {
 	children: ReactNode;
@@ -12,7 +18,7 @@ type Props = {
 
 export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [login, {isError, isLoading, isSuccess, error}] = useLoginMutation()
+	const [login, { isError, isSuccess, error, isLoading }] = useLoginMutation();
 
 	useEffect(() => {
 		if (isOpenLogin) {
@@ -21,9 +27,19 @@ export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 	}, [isOpenLogin, isModalOpen]);
 
 	const onFinish = (values: any) => {
-		// console.log("Received values of form: ", values);
-		login(values)
+		login(values);
 	};
+
+	useEffect(() => {
+		if (isError) {
+			toast.error("Email hoặc mật khẩu không đúng !", { duration: 1500 });
+		}
+
+		if (isSuccess) {
+			setIsModalOpen(false);
+			onOpenLogin(false);
+		}
+	}, [isError, error, isSuccess]);
 
 	const handleOk = () => {
 		setIsModalOpen(false);
@@ -43,7 +59,7 @@ export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 				open={isModalOpen}
 				onOk={handleOk}
 				onCancel={handleCancel}
-        footer={null}
+				footer={null}
 				style={{
 					textAlign: "center",
 				}}
@@ -56,7 +72,13 @@ export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 				>
 					<Form.Item
 						name='username'
-						rules={[{ required: true, message: "Please input your Username!" }]}
+						rules={[
+							{ required: true, message: "Please input your E-mail!" },
+							{
+								type: "email",
+								message: "The input is not valid E-mail!",
+							},
+						]}
 					>
 						<Input
 							prefix={<UserOutlined className='site-form-item-icon' />}
@@ -67,25 +89,22 @@ export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 						name='password'
 						rules={[{ required: true, message: "Please input your Password!" }]}
 					>
-						<Input
+						<Input.Password
 							prefix={<LockOutlined className='site-form-item-icon' />}
+							iconRender={(visible) =>
+								visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+							}
 							type='password'
 							placeholder='Password'
 						/>
 					</Form.Item>
-					{/* <Form.Item>
-						<Form.Item name='remember' valuePropName='checked' noStyle>
-							<Checkbox>Remember me</Checkbox>
-						</Form.Item>
-						<a className='login-form-forgot' href='#'>
-							Forgot password
-						</a>
-					</Form.Item> */}
-					<Form.Item className="login-btn">
+
+					<Form.Item className='login-btn'>
 						<Button
 							type='primary'
 							htmlType='submit'
 							className='login-form-button'
+							loading={isLoading}
 						>
 							Log in
 						</Button>

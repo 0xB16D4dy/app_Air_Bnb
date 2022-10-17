@@ -1,11 +1,13 @@
-import { configureStore, PayloadAction } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { signInApi } from "./signin";
+import accountState from "./signin/account";
 
 export const store = configureStore({
 	reducer: {
-		numberRudcer: (state = 1, action: PayloadAction<number>) => {
-			return 1;
-		},
+		// numberRudcer: (state = 1, action: PayloadAction<number>) => {
+		// 	return 1;
+		// },
+		accountState,
 		[signInApi.reducerPath]: signInApi.reducer,
 	},
 	middleware: (getDefauleMiddleware) => {

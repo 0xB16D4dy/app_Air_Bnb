@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import type { MenuProps } from "antd";
 import { Dropdown, Menu } from "antd";
 import MenuDivider from "antd/lib/menu/MenuDivider";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configStore";
 
 type Props = {
 	handleOpenLogin: (value: boolean) => void;
@@ -13,6 +15,11 @@ export default function Header({ handleOpenLogin }: Props) {
 	const [dropdown, setDropdown] = useState<boolean>(false);
 	const [current, setCurrent] = useState<string>("1");
 	const [keyword, setKeyword] = useState<string>("");
+
+	const a = useSelector((state: RootState) => state.accountState);
+
+	console.log(a)
+
 	const onClick: MenuProps["onClick"] = (e) => {
 		setCurrent(e.key);
 	};
