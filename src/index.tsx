@@ -18,6 +18,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './assets/scss/styles.scss';
 import Management from './pages/Management/Management';
 import Register from './pages/Register/Register';
+import ListRoom from './pages/ListRoom/ListRoom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -31,6 +32,9 @@ root.render(
           <Route path='home' element={<Home />}></Route>
           <Route path='detail'>
             <Route path=':id'></Route>
+          </Route>
+          <Route path='location'>
+            <Route path=':city' element={<ListRoom />}></Route>
           </Route>
           <Route path='*' element={<Navigate to='' />}></Route>
         </Route>
