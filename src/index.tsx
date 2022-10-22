@@ -19,6 +19,7 @@ import './assets/scss/styles.scss';
 import Management from './pages/Management/Management';
 import Register from './pages/Register/Register';
 import ListRoom from './pages/ListRoom/ListRoom';
+import Detail from './pages/Detail/Detail';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -31,7 +32,7 @@ root.render(
           <Route index element={<Home />}></Route>
           <Route path='home' element={<Home />}></Route>
           <Route path='detail'>
-            <Route path=':id'></Route>
+            <Route path=':id' element={<Detail/>}></Route>
           </Route>
           <Route path='location'>
             <Route path=':city' element={<ListRoom />}></Route>

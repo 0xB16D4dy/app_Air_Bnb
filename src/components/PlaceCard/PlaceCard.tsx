@@ -1,25 +1,41 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/configStore';
+import {
+  getLocationRecentApi,
+  LocationModel,
+} from '../../redux/reducer/locationReducer';
 type Props = {};
 
 export default function PlaceCard({}: Props) {
-  return (
-    <div className='place__card-section'>
-      <div className='row'>
-        <div className='col-3 col-wrapper'>
+  const { arrPlaceCard } = useSelector(
+    (state: RootState) => state.locationReducer
+  );
+  const dispatch: AppDispatch = useDispatch();
+
+  const renderPlaceCardItem = () => {
+    return arrPlaceCard?.map((item: LocationModel, index: number) => {
+      return (
+        <div className='col-3 col-wrapper' key={index}>
           <div className='place__card'>
-            <img
-              className='place__card-img'
-              src='https://picsum.photos/50/50'
-              alt='...'
-            />
+            <img className='place__card-img' src={item.hinhAnh} alt='...' />
             <div className='place__card-body'>
-              <div className='place__card-title'>Thành phố Hồ Chí Minh</div>
-              <span className='place__card-sub-time'>15 phút lái xe</span>
+              <div className='place__card-title'>{item.tinhThanh}</div>
+              <span className='place__card-sub-time'>{item.tenViTri}</span>
             </div>
           </div>
         </div>
-      </div>
+      );
+    });
+  };
+
+  useEffect(() => {
+    dispatch(getLocationRecentApi());
+  }, []);
+
+  return (
+    <div className='place__card-section'>
+      <div className='row'>{renderPlaceCardItem()}</div>
     </div>
   );
 }

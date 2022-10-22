@@ -59,7 +59,7 @@ export default function Management({}: Props) {
   const onSearch = (value: string) => console.log(value);
   return (
     <Layout>
-      <Sider trigger={true} collapsible collapsed={collapsed} width={230}>
+      <Sider trigger={true} collapsible collapsed={collapsed} width={230} >
         {collapsed ? (
           <div className='logo' />
         ) : (
@@ -109,7 +109,7 @@ export default function Management({}: Props) {
               margin: '24px 16px',
               padding: 24,
               minHeight: 650,
-              height: '100vh',
+              // height: '100%',
             }}
           >
             <div className='title'>
@@ -132,7 +132,7 @@ export default function Management({}: Props) {
               margin: '24px 16px',
               padding: 24,
               minHeight: 650,
-              height: '100vh',
+              // height: '100vh',
             }}
           >
             <div className='title'>
@@ -153,8 +153,7 @@ export default function Management({}: Props) {
             style={{
               margin: '24px 16px',
               padding: 24,
-              minHeight: 650,
-              height: '100vh',
+              minHeight: 650
             }}
           >
             <div className='title'>
@@ -176,7 +175,7 @@ export default function Management({}: Props) {
               margin: '24px 16px',
               padding: 24,
               minHeight: 650,
-              height: '100vh',
+              // height: '100vh',
             }}
           >
             <div className='title'>

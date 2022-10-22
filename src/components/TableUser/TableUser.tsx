@@ -1,29 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/configStore';
+import {
+  getAllUserApi,
+  UserModal,
+} from '../../redux/reducer/managementUserReducer';
+import moment from 'moment';
 
 type Props = {};
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  roles: string[];
-}
+const onDelete = (record: UserModal) => {
+  console.log(record.id);
+};
+const onEdit = (record: UserModal) => {
+  console.log(record.id);
+};
 
-const onDelete = (record:DataType) =>{
-  console.log(record.key)
-}
-const onEdit = (record:DataType) =>{
-  console.log(record.key)
-}
-
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<UserModal> = [
   {
     title: 'id',
-    dataIndex: 'key',
+    dataIndex: 'id',
     key: 'id',
     render: (text) => <div>{text}</div>,
   },
@@ -34,34 +33,35 @@ const columns: ColumnsType<DataType> = [
     render: (text) => <a>{text}</a>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Age',
+    dataIndex: 'birthday',
+    key: 'birthday',
+    render: (birthday) => (
+      <span>
+        {moment().diff(moment(birthday, 'DD/MM/ YYYY'), 'years') && ''}
+      </span>
+    ),
   },
   {
     title: 'Role',
-    key: 'roles',
-    dataIndex: 'roles',
-    render: (_, { roles }) => (
-      <>
-        {roles.map((role) => {
-          let color = role === 'user' ? 'geekblue' : 'green';
-          if (role === 'admin') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={role}>
-              {role.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    key: 'role',
+    dataIndex: 'role',
+    render: (role) => {
+      let color = 'geekblue';
+      if (role === 'ADMIN') {
+        color = 'volcano';
+      }
+      return (
+        <Tag color={color} key={role}>
+          {role.toUpperCase()}
+        </Tag>
+      );
+    },
   },
   {
     title: 'Action',
@@ -71,17 +71,17 @@ const columns: ColumnsType<DataType> = [
         <Button
           icon={<EditOutlined />}
           type='text'
-          onClick={()=>{
-            onEdit(record)
+          onClick={() => {
+            onEdit(record);
           }}
-          style={{color:'#1890ff'}}
+          style={{ color: '#1890ff' }}
         />
         <Button
           icon={<DeleteOutlined />}
           danger
           type='text'
-          onClick={()=>{
-            onDelete(record)
+          onClick={() => {
+            onDelete(record);
           }}
         />
       </Space>
@@ -89,30 +89,15 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    roles: ['Admin', 'user'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    roles: ['user'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    roles: ['user'],
-  },
-];
-
 export default function TableUser({}: Props) {
-  return <Table columns={columns} dataSource={data} />;
+  const { arrUser } = useSelector(
+    (state: RootState) => state.managementUserReducer
+  );
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllUserApi());
+  }, []);
+
+  return <Table columns={columns} dataSource={arrUser} pagination={{pageSize:10}} />;
 }

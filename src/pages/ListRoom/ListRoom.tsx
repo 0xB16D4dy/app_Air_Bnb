@@ -1,7 +1,7 @@
 import { Pagination, PaginationProps, Rate } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { getRoomByIDApi, RoomModel } from '../../redux/reducer/RoomReducer';
 
@@ -9,10 +9,11 @@ type Props = {};
 
 export default function ListRoom({}: Props) {
   const [current, setCurrent] = useState(1);
-  // const onChange: PaginationProps['onChange'] = page => {
-  //   // console.log(page);
-  //   setCurrent(page);
-  // };
+  const navigate = useNavigate();
+  const onChange: PaginationProps['onChange'] = (page) => {
+    // console.log(page);
+    setCurrent(page);
+  };
   const params = useParams();
   const dispatch: AppDispatch = useDispatch();
   const { arrRoom } = useSelector((state: RootState) => state.RoomReducer);
@@ -20,58 +21,62 @@ export default function ListRoom({}: Props) {
   const renderItem = () => {
     return arrRoom?.map((item: RoomModel, index: number) => {
       return (
-        <>
-          <div className='listings__item'>
-            <div className='listings__img listings__img-superHost'>
-              <button className='prev-next-icon'>
-                <img
-                  src={require('../../assets/icons/arrow-left.svg').default}
-                  alt='arrow-left'
-                />
-              </button>
-              <button className='prev-next-icon'>
-                <img
-                  src={require('../../assets/icons/arrow-right.svg').default}
-                  alt='arrow-right'
-                />
-              </button>
-              <img src={item.hinhAnh} alt='...' />
+        <div
+          className='listings__item'
+          key={index}
+          onClick={() => {
+            navigate(`/detail/${item.id}`);
+          }}
+        >
+          <div className='listings__img listings__img-superHost'>
+            <button className='prev-next-icon'>
+              <img
+                src={require('../../assets/icons/arrow-left.svg').default}
+                alt='arrow-left'
+              />
+            </button>
+            <button className='prev-next-icon'>
+              <img
+                src={require('../../assets/icons/arrow-right.svg').default}
+                alt='arrow-right'
+              />
+            </button>
+            <img src={item.hinhAnh} alt='...' />
+          </div>
+          <div className='listings__content'>
+            <div className='listings__title'>
+              <div className='listings__icon-text'>
+                <span className='greyText'>Private room in Birkenhead</span>
+                <h2>{item.tenPhong}</h2>
+              </div>
+              <div className='listings__title-icon'>
+                <button>
+                  <i className='far fa-heart'></i>
+                </button>
+              </div>
             </div>
-            <div className='listings__content'>
-              <div className='listings__title'>
-                <div className='listings__icon-text'>
-                  <span className='greyText'>Private room in Birkenhead</span>
-                  <h2>{item.tenPhong}</h2>
-                </div>
-                <div className='listings__title-icon'>
-                  <button>
-                    <i className='far fa-heart'></i>
-                  </button>
-                </div>
+            <div className='seperator'></div>
+            <div className='listings__description'>
+              <span className='greyText'>
+                {item.khach} Khách · {item.phongNgu} Phòng ngủ
+              </span>
+              <span className='greyText'>Kitchen · Wifi · Heating</span>
+            </div>
+            <div className='listings__details'>
+              <div className='listings__ratings'>
+                <Rate allowHalf defaultValue={4.5} />
+                <span>(114)</span>
               </div>
-              <div className='seperator'></div>
-              <div className='listings__description'>
-                <span className='greyText'>
-                  {item.khach} Khách · {item.phongNgu} Phòng ngủ
-                </span>
-                <span className='greyText'>Kitchen · Wifi · Heating</span>
-              </div>
-              <div className='listings__details'>
-                <div className='listings__ratings'>
-                  <Rate allowHalf defaultValue={4.5} />
-                  <span>(114)</span>
-                </div>
-                <div className='listings__price'>
-                  <div className='listings__price-total'>
-                    <span>
-                      ${item.giaTien} <span>/ đêm</span>
-                    </span>
-                  </div>
+              <div className='listings__price'>
+                <div className='listings__price-total'>
+                  <span>
+                    ${item.giaTien} <span>/ đêm</span>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-        </>
+        </div>
       );
     });
   };
@@ -108,7 +113,7 @@ export default function ListRoom({}: Props) {
             total={50}
             pageSize={5}
             current={current}
-            // onChange={onChange}
+            onChange={onChange}
             className='pagination__content'
           />
         </div>

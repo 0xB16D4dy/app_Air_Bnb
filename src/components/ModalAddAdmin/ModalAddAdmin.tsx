@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
+
 export default function ModalAddAdmin() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -16,6 +17,7 @@ export default function ModalAddAdmin() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+ 
   return (
     <div className='modal-add-admin'>
       <Button
@@ -24,8 +26,7 @@ export default function ModalAddAdmin() {
         className='btn-add-admin'
         icon={<FormOutlined />}
         onClick={showModal}
-      >
-      </Button>
+      ></Button>
       <Modal
         title='Basic Modal'
         open={isModalOpen}
