@@ -31,11 +31,6 @@ export const signInApi = createApi({
 				setStoreJson(ACCESS_TOKEN, accessToken);
 				return res;
 			},
-			async onQueryStarted(args, { dispatch }) {
-				try {
-					dispatch(setUserInfo());
-				} catch (error) {}
-			},
 		}),
 	}),
 });
