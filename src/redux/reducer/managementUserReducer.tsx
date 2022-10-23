@@ -16,6 +16,7 @@ export interface UserModal {
 
 const initialState:any = {
   arrUser: [],
+  userEdit:{},
 };
 
 const managementUserReducer = createSlice({
@@ -25,10 +26,13 @@ const managementUserReducer = createSlice({
     getAllUserAction: (state, action: PayloadAction<UserModal[]>) => {
       state.arrUser = action.payload;
     },
+    getUserByIdAction:(state, action:PayloadAction<UserModal>)=>{
+      state.userEdit = action.payload;
+    }
   },
 });
 
-export const {getAllUserAction} = managementUserReducer.actions;
+export const {getAllUserAction, getUserByIdAction} = managementUserReducer.actions;
 
 export default managementUserReducer.reducer;
 
@@ -42,3 +46,26 @@ export const getAllUserApi = () => {
     }
   };
 };
+
+export const deleteUserApi = (id:any)=>{
+  return async (dispatch:AppDispatch) =>{
+    try {
+      const result = await http.delete(`/users?id=${id}`)
+      console.log(result.data.message)
+      dispatch(getAllUserApi())
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const getUserByIdApi = (id:any)=>{
+  return async (dispatch:AppDispatch) =>{
+    try {
+      const result = await http.get(`/users/${id}`)
+      dispatch(getUserByIdAction(result.data.content))
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
