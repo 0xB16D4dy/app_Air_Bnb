@@ -28,7 +28,7 @@ const renderUserDropdownMenu = (
 						{
 							key: "1",
 							label: (
-								<NavLink to='/register' className='register'>
+								<NavLink to='/' className='register'>
 									Tin nhắn
 								</NavLink>
 							),
@@ -36,18 +36,26 @@ const renderUserDropdownMenu = (
 						{
 							key: "2",
 							label: (
-								<NavLink to='#' onClick={() => onpenLogin(true)}>
-									Đăng nhập
+								<NavLink to='/' onClick={() => onpenLogin(true)}>
+									Chuyến đi
 								</NavLink>
 							),
 						},
 						{
 							key: "3",
+							label: (
+								<NavLink to='/' onClick={() => onpenLogin(true)}>
+									Danh sách yêu thích
+								</NavLink>
+							),
+						},
+						{
+							key: "4",
 							label: <MenuDivider />,
 							className: "dropdown__divider",
 						},
 						{
-							key: "4",
+							key: "5",
 							label: (
 								<NavLink target='_blank' rel='noopener noreferrer' to='/'>
 									Cho thuê nhà
@@ -55,7 +63,7 @@ const renderUserDropdownMenu = (
 							),
 						},
 						{
-							key: "5",
+							key: "6",
 							label: (
 								<NavLink target='_blank' rel='noopener noreferrer' to='/'>
 									Tổ chức trải nghiệm
@@ -63,10 +71,31 @@ const renderUserDropdownMenu = (
 							),
 						},
 						{
-							key: "6",
+							key: "7",
+							label: (
+								<NavLink target='_blank' rel='noopener noreferrer' to='/'>
+									Tài khoản
+								</NavLink>
+							),
+						},
+						{
+							key: "8",
+							label: <MenuDivider />,
+							className: "dropdown__divider",
+						},
+						{
+							key: "9",
 							label: (
 								<NavLink target='_blank' rel='noopener noreferrer' to='/'>
 									Trợ giúp
+								</NavLink>
+							),
+						},
+						{
+							key: "10",
+							label: (
+								<NavLink target='_blank' rel='noopener noreferrer' to='/'>
+									Đăng xuất
 								</NavLink>
 							),
 						},
@@ -181,7 +210,7 @@ export default function Header({ handleOpenLogin }: Props) {
 	const { accessToken, user } = useSelector(
 		(state: RootState) => state.accountState.myAccount
 	);
-
+		console.log(user)
 	const onClick: MenuProps["onClick"] = (e) => {
 		setCurrent(e.key);
 	};
