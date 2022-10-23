@@ -11,7 +11,6 @@ import {
 import { store } from './redux/configStore';
 import { Provider } from 'react-redux';
 import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
 import HomeTemplate from './templates/HomeTemplate';
 
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
@@ -48,7 +47,6 @@ root.render(
           </Route>
           <Route path='*' element={<Navigate to='' />}></Route>
         </Route>
-        {/* <Route path='login' element={<Login />}></Route> */}
         <Route path='register' element={<Register />}></Route>
         <Route path='admin' element={<DashBoardTemplate/>}>
           <Route path='management-user' element={<ManagementUser />}></Route>
