@@ -1,0 +1,37 @@
+.place__card-section {
+  margin-bottom: 20px;
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+    .col-wrapper {
+      padding: 12px 0 8px;
+      .place__card {
+        display: flex;
+        align-items: center;
+        .place__card-img {
+          display: block;
+          overflow: hidden;
+          width: 50px;
+          height: 50px;
+          border-radius: 4px;
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          -ms-border-radius: 4px;
+          -o-border-radius: 4px;
+        }
+        .place__card-body {
+          margin-left: 20px;
+          .place__card-title {
+            font-size: 16px;
+            font-weight: 600;
+          }
+          .place__card-sub-time {
+            font-size: 14px;
+            font-weight: 400;
+            color: #717171;
+          }
+        }
+      }
+    }
+  }
+}

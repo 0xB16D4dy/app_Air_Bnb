@@ -1,0 +1,40 @@
+.button-prev-next {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 40px;
+  .ant-btn {
+    background: none;
+    outline: none;
+    border: none;
+    color: #ffffff;
+    --antd-wave-shadow-color:transparent;
+    &:active,
+    &:hover,
+    &:focus {
+      background: none;
+      border: none;
+      color: #ffffff;
+      outline: none;
+      --antd-wave-shadow-color:transparent
+    }
+  }
+}
+
+.carousel__inner {
+  position: relative;
+  width: 100%;
+}
+
+.arrow-left-icon {
+  font-size: 22px;
+}
+.arrow-right-icon {
+  font-size: 22px;
+}

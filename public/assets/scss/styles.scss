@@ -1,0 +1,19 @@
+//base
+@import './base/base';
+
+//component
+@import './components/Header/Header.scss';
+@import './components/Footer/Footer.scss';
+@import './components/ModalAddAdmin/ModalAddAdmin.scss';
+@import './components/PlaceCard/PlaceCard.scss';
+@import './components/Slider/Slider.scss';
+@import './components/LoginModal/LoginModal.scss';
+
+//themes
+@import './themes/variable';
+
+//pages
+@import './pages/Home/Home.scss';
+@import './pages/Management/Management.scss';
+@import './pages/ListRoom/ListRoom.scss';
+@import './pages/Detail/Detail.scss';

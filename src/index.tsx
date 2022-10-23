@@ -25,6 +25,7 @@ import ManagementLocation from './pages/ManagementLocation/ManagementLocation';
 import ManagementRoom from './pages/ManagementRoom/ManagementRoom';
 import ManagementBooking from './pages/ManagementBooking/ManagementBooking';
 import EditUser from './components/EditUser/EditUser';
+import UserInfo from './pages/UserInfo/UserInfo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -42,7 +43,10 @@ root.render(
           <Route path='location'>
             <Route path=':city' element={<ListRoom />}></Route>
           </Route>
-          {/* <Route path='*' element={<Navigate to='' />}></Route> */}
+          <Route path='user'>
+            <Route path=":id" element={<UserInfo/>}></Route>
+          </Route>
+          <Route path='*' element={<Navigate to='' />}></Route>
         </Route>
         {/* <Route path='login' element={<Login />}></Route> */}
         <Route path='register' element={<Register />}></Route>

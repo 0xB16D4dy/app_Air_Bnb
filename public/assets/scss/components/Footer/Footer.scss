@@ -1,0 +1,180 @@
+#footer {
+  background: #f7f7f7;
+  border: 1px solid #dddddd;
+  padding-bottom: 80px;
+  .footer__wrapper {
+    .container {
+      .footer__content {
+        padding: 48px 0;
+        margin: 0 -12px;
+        .footer__item {
+          padding: 0 12px;
+          .footer__item-header {
+            .footer__item-header-content {
+              font-weight: 800;
+              font-size: 14px;
+            }
+          }
+          .footer__item-body {
+            .footer__item-body-content {
+              list-style-type: none;
+              padding-left: 0;
+              .footer__item-body-content-text {
+                margin-top: 16px;
+                a {
+                  color: #222222;
+                  font-size: 14px;
+                  &:hover {
+                    color: inherit;
+                    text-decoration: underline;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .footer__copyright {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 0;
+        border-top: 1px solid #dddddd;
+        .footer__copyright-left {
+          .footer__copyright-company {
+            font-size: 14px;
+            color: #222222;
+            line-height: 18px;
+          }
+          .dot {
+            width: 19px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 18px;
+            display: inline-block;
+            transform: translateY(-4px);
+            -webkit-transform: translateY(-4px);
+            -moz-transform: translateY(-4px);
+            -ms-transform: translateY(-4px);
+            -o-transform: translateY(-4px);
+          }
+          .footer__copyright-privacy {
+            a {
+              color: #222222;
+              font-size: 14px;
+              &:hover {
+                color: inherit;
+                text-decoration: underline;
+              }
+            }
+          }
+          .footer__copyright-rules {
+            a {
+              color: #222222;
+              font-size: 14px;
+              &:hover {
+                color: inherit;
+                text-decoration: underline;
+              }
+            }
+          }
+          .footer__copyright-sitemap {
+            a {
+              color: #222222;
+              font-size: 14px;
+              &:hover {
+                color: inherit;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+        .footer__copyright-right {
+          display: flex;
+          align-items: center;
+
+          .footer__copyright-lang {
+            display: flex;
+            margin-right: 24px;
+            cursor: pointer;
+            .footer__copyright-icon {
+              margin-right: 8px;
+              .icon-global {
+              }
+            }
+            .footer__copyright-content {
+              font-weight: 600;
+              font-size: 14px;
+              &:hover {
+                color: inherit;
+                text-decoration: underline;
+              }
+            }
+          }
+          .footer__copyright-currency {
+            display: flex;
+            margin-right: 24px;
+            cursor: pointer;
+            .footer__copyright-icon {
+              margin-right: 8px;
+              #icon-dolar {
+                font-size: 14px;
+              }
+            }
+            .footer__copyright-content {
+              font-weight: 600;
+              font-size: 14px;
+              &:hover {
+                color: inherit;
+                text-decoration: underline;
+              }
+            }
+          }
+          .footer__copyright-social {
+            display: flex;
+            margin-left: 32px;
+            .footer__copyright-social-fb {
+              margin-right: 24px;
+              a {
+                color: #222222;
+                .fa-facebook-f {
+                  height: 18px;
+                  width: 18px;
+                }
+                &:hover {
+                  color: #484848;
+                }
+              }
+            }
+            .footer__copyright-social-tw {
+              margin-right: 24px;
+              a {
+                color: #222222;
+                .fa-twitter {
+                  height: 18px;
+                  width: 18px;
+                }
+                &:hover {
+                  color: #484848;
+                }
+              }
+            }
+            .footer__copyright-social-ig {
+              margin-right: 24px;
+              a {
+                color: #222222;
+                .fa-instagram {
+                  height: 18px;
+                  width: 18px;
+                }
+                &:hover {
+                  color: #484848;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

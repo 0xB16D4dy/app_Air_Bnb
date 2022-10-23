@@ -5,14 +5,14 @@ import { User } from "./types";
 export interface account {
 	myAccount: {
 		accessToken: string;
-    user: User
+		user: User;
 	};
 }
 
 const initialState = {
 	myAccount: {
 		accessToken: "",
-    user: {}
+		user: {},
 	},
 } as unknown as account;
 
