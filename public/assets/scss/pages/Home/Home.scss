@@ -1,0 +1,35 @@
+#content {
+  .container {
+    .title {
+      font-size: 30px;
+      font-weight: 800;
+    }
+    .categories__card {
+      .row {
+        margin: 0 -10px;
+        .col-category {
+          .item {
+            .item-img {
+              width: 300px;
+              height: 270px;
+              overflow: hidden;
+              display: block;
+              border-radius: 10px;
+              -webkit-border-radius: 10px;
+              -moz-border-radius: 10px;
+              -ms-border-radius: 10px;
+              -o-border-radius: 10px;
+}
+            .item-body{
+                .item-title{
+                    padding: 10px 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+            }
+          }
+        }
+      }
+    }
+  }
+}

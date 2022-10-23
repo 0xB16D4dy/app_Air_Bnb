@@ -75,10 +75,10 @@ export const http:any = axios.create({
 // Add a request interceptor
 http.interceptors.request.use(
   (config:AxiosRequestConfig) => {
-    const token = getStore(ACCESS_TOKEN);
+    const token = getStoreJson(ACCESS_TOKEN);
     config.headers = {
       ...config.headers,
-      Authorization: `Bearer ${token}`,
+      token: token,
       TokenCybersoft: TOKEN_CYBERSOFT,
     };
     // config.headers['Content-Type'] = 'application/json';
@@ -103,7 +103,8 @@ http.interceptors.response.use(
     }
     if (err.response.status === 401 || err.response.status === 403) {
     //   history.push('/login');
-      alert('Token không hợp lệ ! Vui lòng đăng nhập lại !');
+      // alert('Token không hợp lệ ! Vui lòng đăng nhập lại !');
+      console.log(err)
       return Promise.reject(err);
     }
   }

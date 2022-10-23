@@ -26,7 +26,6 @@ export const signInApi = createApi({
 			transformResponse: (res) => {
 				const accessToken = res.content.token;
 				const userInfo = res.content.user;
-
 				setStoreJson(USER_INFO, userInfo);
 				setStoreJson(ACCESS_TOKEN, accessToken);
 				return res;

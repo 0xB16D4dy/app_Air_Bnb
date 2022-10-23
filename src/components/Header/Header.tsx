@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import type { MenuProps } from "antd";
+import { Avatar, MenuProps } from "antd";
 import { Dropdown, Menu } from "antd";
 import MenuDivider from "antd/lib/menu/MenuDivider";
 import { useSelector } from "react-redux";
@@ -73,7 +73,11 @@ const renderUserDropdownMenu = (
 						{
 							key: "7",
 							label: (
-								<NavLink target='_blank' rel='noopener noreferrer' to='/'>
+								<NavLink
+									target='_blank'
+									rel='noopener noreferrer'
+									to={`/user/${user?.id}`}
+								>
 									Tài khoản
 								</NavLink>
 							),
@@ -115,10 +119,14 @@ const renderUserDropdownMenu = (
 					/>
 				</div>
 				<div className='icon__right'>
-					<img
+					{/* <img
 						src={user?.avatar || require("../../assets/icons/user.svg").default}
 						alt='icon-user'
 						className='icon-user'
+					/> */}
+					<Avatar
+						size={30}
+						src={user?.avatar || require("../../assets/icons/user.svg").default}
 					/>
 				</div>
 			</button>
@@ -191,10 +199,9 @@ const renderUserDropdownMenu = (
 					/>
 				</div>
 				<div className='icon__right'>
-					<img
+					<Avatar
+						size={30}
 						src={user?.avatar || require("../../assets/icons/user.svg").default}
-						alt='icon-user'
-						className='icon-user'
 					/>
 				</div>
 			</button>
@@ -210,7 +217,7 @@ export default function Header({ handleOpenLogin }: Props) {
 	const { accessToken, user } = useSelector(
 		(state: RootState) => state.accountState.myAccount
 	);
-		console.log(user)
+
 	const onClick: MenuProps["onClick"] = (e) => {
 		setCurrent(e.key);
 	};

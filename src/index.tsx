@@ -20,6 +20,7 @@ import Management from './pages/Management/Management';
 import Register from './pages/Register/Register';
 import ListRoom from './pages/ListRoom/ListRoom';
 import Detail from './pages/Detail/Detail';
+import UserInfo from './pages/UserInfo/UserInfo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -36,6 +37,9 @@ root.render(
           </Route>
           <Route path='location'>
             <Route path=':city' element={<ListRoom />}></Route>
+          </Route>
+          <Route path='user'>
+            <Route path=":id" element={<UserInfo/>}></Route>
           </Route>
           <Route path='*' element={<Navigate to='' />}></Route>
         </Route>

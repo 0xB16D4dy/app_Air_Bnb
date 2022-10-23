@@ -4,6 +4,7 @@ import managementUserReducer from './reducer/managementUserReducer';
 import RoomReducer from './reducer/RoomReducer';
 import { signInApi } from './signin';
 import accountState from './signin/account';
+import { userApi } from './userInfo';
 
 export const store = configureStore({
   reducer: {
@@ -12,10 +13,12 @@ export const store = configureStore({
     accountState,
     managementUserReducer,
     [signInApi.reducerPath]: signInApi.reducer,
+    [userApi.reducerPath]: userApi.reducer
   },
   middleware: (getDefauleMiddleware) => {
     return getDefauleMiddleware({ serializableCheck: false }).concat([
       signInApi.middleware,
+      userApi.middleware
     ]);
   },
 });
