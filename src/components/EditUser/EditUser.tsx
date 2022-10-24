@@ -8,13 +8,15 @@ import {
   Layout,
   Row,
   Select,
+  Space,
 } from 'antd';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  EditUserModal,
+  editUserByIdApi,
   getUserByIdApi,
-  UserModal,
 } from '../../redux/reducer/managementUserReducer';
 import moment from 'moment';
 
@@ -26,27 +28,36 @@ type Props = {};
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 2 },
+    sm: { span: 4 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 },
+    sm: { span: 18 },
   },
 };
 
 export default function EditUser({}: Props) {
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', {
-      ...values,
-      birthday: values['birthday'].format('DD/MM/YYYY'),
-    });
-  };
   const params = useParams();
   const { userEdit } = useSelector(
     (state: RootState) => state.managementUserReducer
   );
   const dispatch: AppDispatch = useDispatch();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  const onFinish = (values: any) => {
+    // console.log('Received values of form: ', {
+    //   ...values,
+    //   birthday: values['birthday'].format('DD/MM/YYYY'),
+    // });
+
+    const id = params.id as string;
+    const data = {
+      id,
+      value: { ...values, birthday: values['birthday'].format('DD/MM/YYYY') },
+    };
+    dispatch(editUserByIdApi(data));
+  };
 
   useEffect(() => {
     const { id } = params;
@@ -60,7 +71,10 @@ export default function EditUser({}: Props) {
         name: userEdit.name,
         phone: userEdit.phone,
         gender: userEdit.gender,
-        birthday: userEdit.birthday !== '' ? moment(userEdit.birthday) : '',
+        birthday:
+          userEdit.birthday !== ''
+            ? moment(userEdit.birthday, 'DD/MM/YYYY')
+            : '',
         role: userEdit.role,
       });
     }
@@ -156,9 +170,18 @@ export default function EditUser({}: Props) {
           </Select>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 4 }}>
-          <Button type='primary' htmlType='submit'>
-            Edit User
-          </Button>
+          <Space size={'middle'}>
+            <Button type='primary' htmlType='submit'>
+              Edit User
+            </Button>
+            <Button
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              Cancel
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
     </Content>

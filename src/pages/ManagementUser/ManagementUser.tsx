@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout, Input } from 'antd';
 import ModalAddAdmin from '../../components/ModalAddAdmin/ModalAddAdmin';
 import TableUser from '../../components/TableUser/TableUser';
+import { AppDispatch } from '../../redux/configStore';
+import { useDispatch } from 'react-redux';
+import {
+  getAllUserApi,
+  searchUserByNameApi,
+} from '../../redux/reducer/managementUserReducer';
 
 type Props = {};
 
@@ -9,7 +15,17 @@ const { Content } = Layout;
 const { Search } = Input;
 
 export default function ManagementUser({}: Props) {
-  const onSearch = (value: string) => console.log(value);
+  const dispatch: AppDispatch = useDispatch();
+  const onSearch = (value: string) => {
+    if (value) {
+      dispatch(searchUserByNameApi(value));
+    }
+  };
+  const onChange = (value:any) => {
+    if (!value.target.value) {
+      dispatch(getAllUserApi());
+    }
+  };
   return (
     <Content
       className='site-content site-layout-background'
@@ -27,6 +43,7 @@ export default function ManagementUser({}: Props) {
         size='large'
         placeholder='input search text'
         onSearch={onSearch}
+        onChange={onChange}
         enterButton='Search'
         className='search-input-dashboard mb-3'
       />

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Button, DatePicker, Form, Input, Modal, Radio, Select } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { AppDispatch } from '../../redux/configStore';
+import { useDispatch } from 'react-redux';
+import { createUserByRoleAdminApi } from '../../redux/reducer/managementUserReducer';
 
 const formItemLayout = {
   labelCol: {
@@ -16,6 +19,7 @@ const formItemLayout = {
 
 export default function ModalAddAdmin() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -30,7 +34,17 @@ export default function ModalAddAdmin() {
   };
 
   const onFinish = (values: any) => {
-    console.log({...values, 'birthday': values['birthday'].format('DD/MM/YYYY')});
+    console.log({
+      ...values,
+      birthday: values['birthday'].format('DD/MM/YYYY'),
+    });
+    dispatch(
+      createUserByRoleAdminApi({
+        ...values,
+        birthday: values['birthday'].format('DD/MM/YYYY'),
+      })
+    );
+    setIsModalOpen(false);
   };
 
   return (
@@ -48,7 +62,6 @@ export default function ModalAddAdmin() {
         onOk={handleOk}
         onCancel={handleCancel}
         width={700}
-        okText={'Ok'}
       >
         <Form
           {...formItemLayout}
@@ -116,9 +129,9 @@ export default function ModalAddAdmin() {
             rules={[{ required: true, message: 'Please input your Birthday!' }]}
           >
             <DatePicker
-            format={'DD/MM/YYYY'}
+              format={'DD/MM/YYYY'}
               placeholder='select your birthday'
-              style={{width:'180px'}}
+              style={{ width: '180px' }}
             />
           </Form.Item>
           <Form.Item
@@ -144,7 +157,7 @@ export default function ModalAddAdmin() {
             </Select>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 10, span: 18 }}>
-            <Button type='primary' htmlType='submit' style={{width:'120px'}}>
+            <Button type='primary' htmlType='submit' style={{ width: '120px' }}>
               Add User
             </Button>
           </Form.Item>

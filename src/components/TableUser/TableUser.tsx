@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
@@ -15,7 +15,7 @@ import {
   UserModal,
 } from '../../redux/reducer/managementUserReducer';
 import moment from 'moment';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
@@ -34,14 +34,14 @@ export default function TableUser({}: Props) {
       title: 'id',
       dataIndex: 'id',
       key: 'id',
-      render: (text) => <div>{text}</div>,
+      render: (text,_,index) => <div key={index}>{text}</div>,
       width: 80,
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <a>{text}</a>,
+      render: (text,_,index) => <div key={index}>{text}</div>,
     },
     {
       title: 'Email',
@@ -65,14 +65,14 @@ export default function TableUser({}: Props) {
       title: 'Gender',
       dataIndex: 'gender',
       key: 'gender',
-      render: (gender) => {
+      render: (gender,_, index) => {
         return gender ? (
-          <span>
+          <span key={index}>
             <ManOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
             male
           </span>
         ) : (
-          <span>
+          <span key={index}>
             <WomanOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
             female
           </span>
@@ -98,8 +98,8 @@ export default function TableUser({}: Props) {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
-        <Space size='middle'>
+      render: (_, record,index) => (
+        <Space size='middle' key={index}>
           <Button
             icon={<EditOutlined />}
             type='text'
