@@ -1,5 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { ACCESS_TOKEN, getStoreJson, http, setStoreJson, USER_INFO } from "../../utils/setting";
+import {
+	ACCESS_TOKEN,
+	getStoreJson,
+	http,
+	setStoreJson,
+	USER_INFO,
+} from "../../utils/setting";
 import { setUserInfo } from "../signin/account";
 
 export const userApi = createApi({
@@ -28,15 +34,40 @@ export const userApi = createApi({
 				};
 			},
 			invalidatesTags: ["User"],
-      async onQueryStarted(args, {dispatch, queryFulfilled}) {
-        try {
-          const { data } = await queryFulfilled
-          setStoreJson(USER_INFO, data?.content)
-          dispatch(setUserInfo())
-        } catch (error) {}
-      }
+			async onQueryStarted(args, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+					setStoreJson(USER_INFO, data?.content);
+					dispatch(setUserInfo());
+				} catch (error) {}
+			},
 		}),
+		updateInfo: builder.mutation<any, any>({
+			query: (data) => {
+				return {
+					url: `/users/${data.userId}`,
+					method: "put",
+					data: data.dataUpdate,
+				};
+			},
+			invalidatesTags: ["User"],
+			async onQueryStarted(args, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+					setStoreJson(USER_INFO, data?.content);
+					dispatch(setUserInfo());
+				} catch (error) {}
+			},
+		}),
+		getHistory: builder.query<any, any>({
+			query: (data) => {
+				return {
+					url: `/dat-phong/lay-theo-nguoi-dung/1`
+				}
+			},
+			transformResponse: (res) => res.content
+		})
 	}),
 });
 
-export const { useLazyGetUserQuery, useUpdateAvatarMutation } = userApi;
+export const { useLazyGetUserQuery, useUpdateAvatarMutation, useUpdateInfoMutation , useLazyGetHistoryQuery} = userApi;
