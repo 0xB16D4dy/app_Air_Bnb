@@ -62,7 +62,7 @@ export const userApi = createApi({
 		getHistory: builder.query<any, any>({
 			query: (data) => {
 				return {
-					url: `/dat-phong/lay-theo-nguoi-dung/1`
+					url: `/dat-phong/lay-theo-nguoi-dung/${data?.userId}`
 				}
 			},
 			transformResponse: (res) => res.content

@@ -1,5 +1,6 @@
 import { Button, Typography } from "antd";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { User } from "../../redux/signin/types";
 import HistoryOfRent from "./HistoryOfRent";
 import UpdateInfoForm from "./UpdateInfoForm";
@@ -13,6 +14,8 @@ type Props = {
 function UserRightSide(props: Props) {
 	const { user } = props;
   const [showUpdateInfo, setShowUpdateInfo] = useState(false)
+	const {id} = useParams()
+
 	return (
 		<div>
 			<Title
@@ -32,7 +35,7 @@ function UserRightSide(props: Props) {
       {showUpdateInfo && <UpdateInfoForm user={user} setShowUpdateInfo={setShowUpdateInfo}/>}
 
       <Title style={{marginTop: '25px'}} level={2}>Lịch Sử Thuê Phòng</Title>
-      <HistoryOfRent/>
+      <HistoryOfRent userId={id}/>
 		</div>
 	);
 }
