@@ -31,7 +31,16 @@ export const signInApi = createApi({
 				return res;
 			},
 		}),
+		register: builder.mutation<any, any>({
+			query: (payload) => {
+				return {
+					url: '/auth/signup',
+					method: 'post',
+					data: payload?.data
+				}
+			}
+		})
 	}),
 });
 
-export const { useLoginMutation } = signInApi;
+export const { useLoginMutation, useRegisterMutation } = signInApi;

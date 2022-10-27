@@ -24,8 +24,12 @@ export const accountState = createSlice({
 			state.myAccount.accessToken = getStoreJson(ACCESS_TOKEN);
 			state.myAccount.user = getStoreJson(USER_INFO);
 		},
+		logOut: (state) => {
+			state.myAccount.accessToken = '';
+			state.myAccount.user = {};
+		}
 	},
 });
 
-export const { setUserInfo } = accountState.actions;
+export const { setUserInfo, logOut } = accountState.actions;
 export default accountState.reducer;
