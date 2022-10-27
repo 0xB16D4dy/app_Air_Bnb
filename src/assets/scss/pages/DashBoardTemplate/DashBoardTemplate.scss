@@ -1,0 +1,88 @@
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.brand {
+  height: 32px;
+  margin: 16px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 32px;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+
+.site-header.site-layout-background {
+  display: flex;
+  justify-content: space-between;
+}
+
+.site-content.site-layout-background {
+  .title{
+    display: flex;
+    .content-title{
+      font-size: 32px;
+      font-weight: 600;
+    }
+  }
+}
+
+.userLogin {
+  margin: auto 0;
+  padding: 0 24px;
+  .label-user {
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .avatar {
+    cursor: pointer;
+  }
+}
+
+.search-input-dashboard {
+  .ant-btn {
+    color: #ffffff;
+    background-color: #1890ff;
+    &:hover {
+      color: #fff;
+      background-color: #40a9ff;
+      border-color: #40a9ff;
+    }
+  }
+}
+
+.site-header__userLogin-dropdown {
+  width: 150px;
+  .ant-dropdown-menu {
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    .nav-link {
+      padding: 8px 14px;
+      &:hover {
+        background-color: #dddddd;
+      }
+    }
+  }
+}

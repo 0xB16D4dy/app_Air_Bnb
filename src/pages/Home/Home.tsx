@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Divider } from 'antd';
 import Slider from '../../components/Slider/Slider';
 import PlaceCard from '../../components/PlaceCard/PlaceCard';
+
 
 type Props = {};
 
@@ -12,7 +13,7 @@ export default function Home({}: Props) {
       <section id='content' className='pb-5 pt-4'>
         <div className='container'>
           <h3 className='title'>Khám phá những điểm đến gần đây</h3>
-          <PlaceCard/>
+          <PlaceCard />
           <h3 className='title'>Ở bất cứ đâu</h3>
           <div className='categories__card'>
             <div className='row'>
@@ -60,7 +61,9 @@ export default function Home({}: Props) {
                     alt='corgi'
                   ></img>
                   <div className='item-body'>
-                    <div className='item-title'>Cho phép mang theo thú cưng</div>
+                    <div className='item-title'>
+                      Cho phép mang theo thú cưng
+                    </div>
                   </div>
                 </div>
               </div>

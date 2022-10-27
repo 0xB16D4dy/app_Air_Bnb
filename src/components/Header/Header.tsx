@@ -1,16 +1,239 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import type { MenuProps } from 'antd';
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Avatar, MenuProps } from 'antd';
 import { Dropdown, Menu } from 'antd';
 import MenuDivider from 'antd/lib/menu/MenuDivider';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
+import { User } from '../../redux/signin/types';
+import { logOut } from '../../redux/signin/account';
+import { ACCESS_TOKEN, setStoreJson, USER_INFO, USER_LOGIN } from '../../utils/setting';
 
-type Props = {};
+type Props = {
+  handleOpenLogin: (value: boolean) => void;
+};
+
+const renderUserDropdownMenu = (
+  accessToken: string,
+  user: User,
+  openLogin: (a: true) => void,
+  current: string,
+  onClickItem: any
+) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    dispatch(logOut())
+    localStorage.removeItem(ACCESS_TOKEN)
+    localStorage.removeItem(USER_INFO)
+    localStorage.removeItem(USER_LOGIN)
+    navigate('/')
+    window.location.reload()
+  }
+
+  return accessToken ? (
+    <Dropdown
+      overlayClassName='navbar__info-dropdown'
+      overlay={
+        <Menu
+          selectedKeys={[current]}
+          items={[
+            {
+              key: '1',
+              label: (
+                <NavLink to='/' className='register'>
+                  Tin nhắn
+                </NavLink>
+              ),
+            },
+            {
+              key: '2',
+              label: (
+                <NavLink to='/' onClick={() => openLogin(true)}>
+                  Chuyến đi
+                </NavLink>
+              ),
+            },
+            {
+              key: '3',
+              label: (
+                <NavLink to='/' onClick={() => openLogin(true)}>
+                  Danh sách yêu thích
+                </NavLink>
+              ),
+            },
+            {
+              key: '4',
+              label: <MenuDivider />,
+              className: 'dropdown__divider',
+            },
+            {
+              key: '5',
+              label: (
+                <NavLink target='_blank' rel='noopener noreferrer' to='/'>
+                  Cho thuê nhà
+                </NavLink>
+              ),
+            },
+            {
+              key: '6',
+              label: (
+                <NavLink target='_blank' rel='noopener noreferrer' to='/'>
+                  Tổ chức trải nghiệm
+                </NavLink>
+              ),
+            },
+            {
+              key: '7',
+              label: (
+                <NavLink
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  to={`/user/${user?.id}`}
+                >
+                  Tài khoản
+                </NavLink>
+              ),
+            },
+            {
+              key: '8',
+              label: <MenuDivider />,
+              className: 'dropdown__divider',
+            },
+            {
+              key: '9',
+              label: (
+                <NavLink target='_blank' rel='noopener noreferrer' to='/'>
+                  Trợ giúp
+                </NavLink>
+              ),
+            },
+            {
+              key: '10',
+              label: (
+                <NavLink onClick={handleLogout} rel='noopener noreferrer' to='/'>
+                  Đăng xuất
+                </NavLink>
+              ),
+            },
+          ]}
+          onClick={onClickItem}
+        />
+      }
+      placement='bottomRight'
+      trigger={['click']}
+    >
+      <button className='btn-dropdown'>
+        <div className='icon__left'>
+          <img
+            src={require('../../assets/icons/icon-menu.svg').default}
+            alt='icon-menu'
+            className='icon-menu'
+          />
+        </div>
+        <div className='icon__right'>
+          {/* <img
+						src={user?.avatar || require("../../assets/icons/user.svg").default}
+						alt='icon-user'
+						className='icon-user'
+					/> */}
+          <Avatar
+            size={30}
+            src={user?.avatar || require('../../assets/icons/user.svg').default}
+          />
+        </div>
+      </button>
+    </Dropdown>
+  ) : (
+    <Dropdown
+      overlayClassName='navbar__info-dropdown'
+      overlay={
+        <Menu
+          selectedKeys={[current]}
+          items={[
+            {
+              key: '1',
+              label: (
+                <NavLink to='/register' className='register'>
+                  Đăng ký
+                </NavLink>
+              ),
+            },
+            {
+              key: '2',
+              label: (
+                <NavLink to='#' onClick={() => openLogin(true)}>
+                  Đăng nhập
+                </NavLink>
+              ),
+            },
+            {
+              key: '3',
+              label: <MenuDivider />,
+              className: 'dropdown__divider',
+            },
+            {
+              key: '4',
+              label: (
+                <NavLink target='_blank' rel='noopener noreferrer' to='/'>
+                  Cho thuê nhà
+                </NavLink>
+              ),
+            },
+            {
+              key: '5',
+              label: (
+                <NavLink target='_blank' rel='noopener noreferrer' to='/'>
+                  Tổ chức trải nghiệm
+                </NavLink>
+              ),
+            },
+            {
+              key: '6',
+              label: (
+                <NavLink target='_blank' rel='noopener noreferrer' to='/'>
+                  Trợ giúp
+                </NavLink>
+              ),
+            },
+          ]}
+          onClick={onClickItem}
+        />
+      }
+      placement='bottomRight'
+      trigger={['click']}
+    >
+      <button className='btn-dropdown'>
+        <div className='icon__left'>
+          <img
+            src={require('../../assets/icons/icon-menu.svg').default}
+            alt='icon-menu'
+            className='icon-menu'
+          />
+        </div>
+        <div className='icon__right'>
+          <Avatar
+            size={30}
+            src={user?.avatar || require('../../assets/icons/user.svg').default}
+          />
+        </div>
+      </button>
+    </Dropdown>
+  );
+};
 
 // eslint-disable-next-line no-empty-pattern
-export default function Header({}: Props) {
+export default function Header({ handleOpenLogin }: Props) {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [current, setCurrent] = useState<string>('1');
   const [keyword, setKeyword] = useState<string>('');
+  const { accessToken, user } = useSelector(
+    (state: RootState) => state.accountState.myAccount
+  );
+
   const onClick: MenuProps['onClick'] = (e) => {
     setCurrent(e.key);
   };
@@ -201,99 +424,13 @@ export default function Header({}: Props) {
                           </div>
                         </div>
                         <div className='navbar__info-right'>
-                          <Dropdown
-                            overlay={
-                              <Menu
-                                selectedKeys={[current]}
-                                items={[
-                                  {
-                                    key: '1',
-                                    label: (
-                                      <NavLink
-                                        to='/register'
-                                        className='register'
-                                      >
-                                        Đăng ký
-                                      </NavLink>
-                                    ),
-                                  },
-                                  {
-                                    key: '2',
-                                    label: (
-                                      <NavLink to='/login'>Đăng nhập</NavLink>
-                                    ),
-                                  },
-                                  {
-                                    key: '3',
-                                    label: <MenuDivider />,
-                                    className: 'dropdown__divider',
-                                  },
-                                  {
-                                    key: '4',
-                                    label: (
-                                      <NavLink
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        to='/'
-                                      >
-                                        Cho thuê nhà
-                                      </NavLink>
-                                    ),
-                                  },
-                                  {
-                                    key: '5',
-                                    label: (
-                                      <NavLink
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        to='/'
-                                      >
-                                        Tổ chức trải nghiệm
-                                      </NavLink>
-                                    ),
-                                  },
-                                  {
-                                    key: '6',
-                                    label: (
-                                      <NavLink
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        to='/'
-                                      >
-                                        Trợ giúp
-                                      </NavLink>
-                                    ),
-                                  },
-                                ]}
-                                onClick={onClick}
-                              />
-                            }
-                            placement='bottomRight'
-                            trigger={['click']}
-                          >
-                            <button className='btn-dropdown'>
-                              <div className='icon__left'>
-                                <img
-                                  src={
-                                    require('../../assets/icons/icon-menu.svg')
-                                      .default
-                                  }
-                                  alt='icon-menu'
-                                  className='icon-menu'
-                                />
-                              </div>
-                              <div className='icon__right'>
-                                <img
-                                  src={
-                                    require('../../assets/icons/user.svg')
-                                      .default
-                                  }
-                                  alt='icon-user'
-                                  className='icon-user'
-                                />
-                              </div>
-                            </button>
-                          </Dropdown>
+                          {renderUserDropdownMenu(
+                            accessToken,
+                            user,
+                            handleOpenLogin,
+                            current,
+                            onClick
+                          )}
                         </div>
                       </div>
                     </div>
@@ -384,98 +521,13 @@ export default function Header({}: Props) {
                         </div>
                       </div>
                       <div className='navbar__info-right'>
-                        <Dropdown
-                          overlay={
-                            <Menu
-                              selectedKeys={[current]}
-                              items={[
-                                {
-                                  key: '1',
-                                  label: (
-                                    <NavLink
-                                      to='/register'
-                                      className='register'
-                                    >
-                                      Đăng ký
-                                    </NavLink>
-                                  ),
-                                },
-                                {
-                                  key: '2',
-                                  label: (
-                                    <NavLink to='/login'>Đăng nhập</NavLink>
-                                  ),
-                                },
-                                {
-                                  key: '3',
-                                  label: <MenuDivider />,
-                                  className: 'dropdown__divider',
-                                },
-                                {
-                                  key: '4',
-                                  label: (
-                                    <NavLink
-                                      target='_blank'
-                                      rel='noopener noreferrer'
-                                      to='/'
-                                    >
-                                      Cho thuê nhà
-                                    </NavLink>
-                                  ),
-                                },
-                                {
-                                  key: '5',
-                                  label: (
-                                    <NavLink
-                                      target='_blank'
-                                      rel='noopener noreferrer'
-                                      to='/'
-                                    >
-                                      Tổ chức trải nghiệm
-                                    </NavLink>
-                                  ),
-                                },
-                                {
-                                  key: '6',
-                                  label: (
-                                    <NavLink
-                                      target='_blank'
-                                      rel='noopener noreferrer'
-                                      to='/'
-                                    >
-                                      Trợ giúp
-                                    </NavLink>
-                                  ),
-                                },
-                              ]}
-                              onClick={onClick}
-                            />
-                          }
-                          placement='bottomRight'
-                          trigger={['click']}
-                        >
-                          <button className='btn-dropdown'>
-                            <div className='icon__left'>
-                              <img
-                                src={
-                                  require('../../assets/icons/icon-menu.svg')
-                                    .default
-                                }
-                                alt='icon-menu'
-                                className='icon-menu'
-                              />
-                            </div>
-                            <div className='icon__right'>
-                              <img
-                                src={
-                                  require('../../assets/icons/user.svg').default
-                                }
-                                alt='icon-user'
-                                className='icon-user'
-                              />
-                            </div>
-                          </button>
-                        </Dropdown>
+                        {renderUserDropdownMenu(
+                          accessToken,
+                          user,
+                          handleOpenLogin,
+                          current,
+                          onClick
+                        )}
                       </div>
                     </div>
                   </div>

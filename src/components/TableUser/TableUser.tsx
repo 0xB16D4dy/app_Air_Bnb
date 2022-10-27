@@ -1,92 +1,144 @@
-import React from 'react'
-import { Space, Table, Tag } from 'antd';
+import React, { useEffect } from 'react';
+import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ManOutlined,
+  WomanOutlined,
+} from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/configStore';
+import {
+  deleteUserApi,
+  getAllUserApi,
+  UserModal,
+} from '../../redux/reducer/managementUserReducer';
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
-type Props = {}
+type Props = {};
 
-interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
-  }
+const scroll: { y?: number | string } = {};
+scroll.y = 580;
 
-const columns: ColumnsType<DataType> = [
+export default function TableUser({}: Props) {
+  const { arrUser } = useSelector(
+    (state: RootState) => state.managementUserReducer
+  );
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+
+  const columns: ColumnsType<UserModal> = [
+    {
+      title: 'id',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text,_,index) => <div key={index}>{text}</div>,
+      width: 80,
+    },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a>{text}</a>,
+      render: (text,_,index) => <div key={index}>{text}</div>,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Birthday',
+      dataIndex: 'birthday',
+      key: 'birthday',
+      // render:(birthday)=><div>{moment(birthday).format('MM/DD/YYYY')?moment(birthday).format('MM/DD/YYYY'):''}</div>
+      // render: (birthday) => (
+      //   <span>
+      //     {moment().diff(moment(birthday, 'DD/MM/ YYYY'), 'years')
+      //       ? moment().diff(moment(birthday, 'DD/MM/ YYYY'), 'years')
+      //       : ''}
+      //   </span>
+      // ),
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
-        <>
-          {tags.map(tag => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      title: 'Gender',
+      dataIndex: 'gender',
+      key: 'gender',
+      render: (gender,_, index) => {
+        return gender ? (
+          <span key={index}>
+            <ManOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+            male
+          </span>
+        ) : (
+          <span key={index}>
+            <WomanOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+            female
+          </span>
+        );
+      },
+    },
+    {
+      title: 'Role',
+      key: 'role',
+      dataIndex: 'role',
+      render: (role) => {
+        let color = 'geekblue';
+        if (role === 'ADMIN') {
+          color = 'volcano';
+        }
+        return (
+          <Tag color={color} key={role}>
+            {role.toUpperCase()}
+          </Tag>
+        );
+      },
     },
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+      render: (_, record,index) => (
+        <Space size='middle' key={index}>
+          <Button
+            icon={<EditOutlined />}
+            type='text'
+            onClick={() => {
+              onEdit(record);
+            }}
+            style={{ color: '#1890ff' }}
+          />
+          <Button
+            icon={<DeleteOutlined />}
+            danger
+            type='text'
+            onClick={() => {
+              onDelete(record);
+            }}
+          />
         </Space>
       ),
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
+  const onDelete = ({id}:UserModal) => {
+    dispatch(deleteUserApi(id));
+  };
+  const onEdit = ({id}:UserModal) => {
+    navigate(`/admin/edit-user/${id}`)
+    console.log(id);
+  };
 
-export default function TableUser({}: Props) {
+  useEffect(() => {
+    dispatch(getAllUserApi());
+  }, []);
+
   return (
-    <Table columns={columns} dataSource={data} />
-  )
+    <Table
+      columns={columns}
+      dataSource={arrUser}
+      pagination={{ pageSize: 15, showSizeChanger: false }}
+      scroll={scroll}
+    />
+  );
 }
