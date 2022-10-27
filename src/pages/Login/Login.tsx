@@ -6,7 +6,7 @@ import {
 	UserOutlined,
 } from "@ant-design/icons";
 import { Button, Form, Input, Modal } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/signin";
 import toast from "react-hot-toast";
 
@@ -17,6 +17,7 @@ type Props = {
 };
 
 export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
+	const navigate = useNavigate()
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [login, { isError, isSuccess, error, isLoading }] = useLoginMutation();
 
@@ -38,6 +39,8 @@ export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 		if (isSuccess) {
 			setIsModalOpen(false);
 			onOpenLogin(false);
+			navigate('/')
+			window.location.reload()
 		}
 	}, [isError, error, isSuccess]);
 

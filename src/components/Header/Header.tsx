@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Avatar, MenuProps } from 'antd';
 import { Dropdown, Menu } from 'antd';
 import MenuDivider from 'antd/lib/menu/MenuDivider';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 import { User } from '../../redux/signin/types';
+import { logOut } from '../../redux/signin/account';
+import { ACCESS_TOKEN, setStoreJson, USER_INFO, USER_LOGIN } from '../../utils/setting';
 
 type Props = {
   handleOpenLogin: (value: boolean) => void;
@@ -18,6 +21,19 @@ const renderUserDropdownMenu = (
   current: string,
   onClickItem: any
 ) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    dispatch(logOut())
+    localStorage.removeItem(ACCESS_TOKEN)
+    localStorage.removeItem(USER_INFO)
+    localStorage.removeItem(USER_LOGIN)
+    navigate('/')
+    window.location.reload()
+  }
+
   return accessToken ? (
     <Dropdown
       overlayClassName='navbar__info-dropdown'
@@ -98,7 +114,7 @@ const renderUserDropdownMenu = (
             {
               key: '10',
               label: (
-                <NavLink target='_blank' rel='noopener noreferrer' to='/'>
+                <NavLink onClick={handleLogout} rel='noopener noreferrer' to='/'>
                   Đăng xuất
                 </NavLink>
               ),

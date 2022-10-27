@@ -14,7 +14,7 @@ function UserInfo() {
 		getUser({ id });
 	}, [id]);
 
-  console.log(user)
+
 	return (
 		<div className='container' style={{ paddingTop: "80px" }}>
 			<Row style={{ maxWidth: "1170px", margin: "48px auto 32px" }} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
