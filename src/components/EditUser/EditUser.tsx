@@ -114,7 +114,7 @@ export default function EditUser({}: Props) {
             },
           ]}
         >
-          <Input />
+          <Input disabled />
         </Form.Item>
         <Form.Item
           name='name'
@@ -125,6 +125,10 @@ export default function EditUser({}: Props) {
               required: true,
               message: 'Please input your nickname!',
             },
+            {
+              pattern: /^[a-zA-Z]{6,18}$/,
+              message: 'The input is not valid name!',
+            },
           ]}
         >
           <Input />
@@ -134,6 +138,7 @@ export default function EditUser({}: Props) {
           label='Phone Number'
           rules={[
             { required: true, message: 'Please input your phone number!' },
+            { pattern: /^0.\d{1,9}$/, message: 'Phone number invalid' }
           ]}
         >
           <Input />

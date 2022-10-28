@@ -1,14 +1,38 @@
 import React, { useState } from 'react';
-import { Button, Form, DatePicker, Dropdown, Input } from 'antd';
+import { Button, Form, DatePicker, Dropdown } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-type Props = {};
+import { getStoreJson, USER_INFO } from '../../utils/setting';
+import { AppDispatch } from '../../redux/configStore';
+import { useDispatch } from 'react-redux';
+import { bookingRoomApi, BookRoomModel } from '../../redux/reducer/RoomReducer';
+
+type Props = {
+  maPhong: number;
+  giaTien?: number;
+  khach?: number | unknown;
+};
 
 const { RangePicker } = DatePicker;
 
-export default function DetailOrder({}: Props) {
-  const [book, setBook] = useState<Boolean>(true);
+export default function DetailOrder({ maPhong, giaTien, khach }: Props) {
+  const [book, setBook] = useState<Boolean>(false);
+  const [form] = Form.useForm();
+  const [quantity, setQuantity] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+  const userInfo = getStoreJson(USER_INFO);
+  const dispatch: AppDispatch = useDispatch();
+
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+    const rangeValue = values['RangePicker'];
+    const data: BookRoomModel = {
+      maPhong: maPhong,
+      ngayDen: rangeValue[0],
+      ngayDi: rangeValue[1],
+      soLuongKhach: quantity,
+      maNguoiDung: userInfo.id,
+    };
+    console.log('Received values of form: ', data);
+    dispatch(bookingRoomApi(data));
   };
 
   const select = (
@@ -25,30 +49,50 @@ export default function DetailOrder({}: Props) {
               shape='circle'
               size='middle'
               icon={<MinusOutlined />}
+              onClick={() => {
+                if (quantity > 1) {
+                  setQuantity(quantity - 1);
+                }
+              }}
             ></Button>
-            <span className='quantity'>1</span>
+            <span className='quantity'>{quantity}</span>
             <Button
               type='primary'
               shape='circle'
               size='middle'
               icon={<PlusOutlined />}
+              onClick={() => {
+                if (typeof khach === 'number') {
+                  if (quantity < khach) {
+                    setQuantity(quantity + 1);
+                  }
+                }
+              }}
             ></Button>
           </div>
         </div>
         <div className='close-dropdown'>
-          <button className='btn btn-dropdown-close'>Đóng</button>
+          <button
+            className='btn btn-dropdown-close'
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
+            Đóng
+          </button>
         </div>
       </div>
     </div>
   );
+
   return (
     <div className='wrapper-booking' id='wrapper-booking'>
-      <Form className='form-booking' onFinish={onFinish}>
+      <Form className='form-booking' onFinish={onFinish} form={form}>
         <div className='title-form'>
           <span className='price'>
-            $3.812 <span>đêm</span>
+            ${giaTien} <span>/đêm</span>
           </span>
-          <div className='rating greyText'>1 đánh giá</div>
+          <div className='rating greyText'>18 đánh giá</div>
         </div>
         <div className='form-content'>
           <label htmlFor='RangePicker' className='label-book'>
@@ -60,12 +104,21 @@ export default function DetailOrder({}: Props) {
           <Form.Item
             className='form-group form-group-first'
             name={'RangePicker'}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your start day and end day!',
+              },
+            ]}
           >
             <RangePicker
               format={'DD/MM/YYYY'}
               separator={''}
               suffixIcon={''}
               placeholder={['Thêm ngày', 'Thêm ngày']}
+              getPopupContainer={() =>
+                document.getElementById('wrapper-booking') || document.body
+              }
             />
           </Form.Item>
           <div className='form-group form-group-second'>
@@ -73,6 +126,10 @@ export default function DetailOrder({}: Props) {
               overlay={select}
               overlayClassName={'select__dropdown'}
               trigger={['click']}
+              open={isOpen}
+              onOpenChange={() => {
+                setIsOpen(!isOpen);
+              }}
               getPopupContainer={() =>
                 document.getElementById('wrapper-booking') || document.body
               }
@@ -80,16 +137,12 @@ export default function DetailOrder({}: Props) {
               <Button
                 className='btn btn-dropdown-select'
                 icon={<i className='fa-solid fa-angle-down'></i>}
+                onClick={() => {
+                  setBook(true);
+                }}
               >
                 <p className='label'>Khách</p>
-                <span className='info'>1 khách</span>
-                <Form.Item
-                  name='quantity'
-                  initialValue={'1 khách'}
-                  hidden={true}
-                >
-                  <Input />
-                </Form.Item>
+                <span className='info'>{quantity} khách</span>
               </Button>
             </Dropdown>
           </div>
@@ -100,12 +153,9 @@ export default function DetailOrder({}: Props) {
                   type='primary'
                   className='btn-order'
                   htmlType='submit'
-                  onClick={() => {
-                    setBook(!book);
-                  }}
                   block
                 >
-                  Kiểm tra tình trạng còn phòng
+                  Đặt phòng
                 </Button>
               </Form.Item>
             ) : (
@@ -116,15 +166,13 @@ export default function DetailOrder({}: Props) {
                   htmlType='submit'
                   block
                 >
-                  Đặt phòng
+                  Kiểm tra tình trạng còn phòng
                 </Button>
               </Form.Item>
             )}
           </div>
         </div>
         {book ? (
-          ''
-        ) : (
           <div className='booked'>
             <span className='reminder'>Bạn vẫn chưa bị trừ tiền</span>
             <div className='price-list'>
@@ -146,6 +194,8 @@ export default function DetailOrder({}: Props) {
               <span className='result'>$25.159</span>
             </div>
           </div>
+        ) : (
+          ''
         )}
       </Form>
       <div className='content-report'>

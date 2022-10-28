@@ -1,10 +1,13 @@
-import { Form, Input, Button, Avatar, Comment, List } from 'antd';
+import { Form, Input, Button, Avatar, Comment } from 'antd';
 import moment from 'moment';
 import React, { useState } from 'react';
-import { CommentItem } from '../DetailReview/DetailReview';
-
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/configStore';
+import { addCommentApi } from '../../redux/reducer/RoomReducer';
+import { getStoreJson, USER_INFO } from '../../utils/setting';
 
 type Props = {
+  maPhong: string | undefined;
 };
 
 const { TextArea } = Input;
@@ -35,18 +38,12 @@ const Editor = ({ onChange, onSubmit, submitting, value }: EditorProps) => (
   </>
 );
 
-export default function DetailComment({}: Props) {
+export default function DetailComment({ maPhong }: Props) {
   const [submitting, setSubmitting] = useState(false);
-  const [comments, setComments] = useState<CommentItem[]>([]);
-  const CommentList = ({ comments }: { comments: CommentItem[] }) => (
-    <List
-      dataSource={comments}
-      header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
-      itemLayout='horizontal'
-      renderItem={(props) => <Comment {...props} />}
-    />
-  );
   const [value, setValue] = useState('');
+  const userInfo = getStoreJson(USER_INFO);
+  const dispatch: AppDispatch = useDispatch();
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
@@ -57,27 +54,23 @@ export default function DetailComment({}: Props) {
     setTimeout(() => {
       setSubmitting(false);
       setValue('');
-      setComments([
-        ...comments,
-        {
-          author: 'Han Solo',
-          avatar: 'https://joeschmoe.io/api/v1/random',
-          content: <p>{value}</p>,
-          datetime: moment('2016-11-22').fromNow(),
-        },
-      ]);
+      const data = {
+        maPhong: parseInt(maPhong as string),
+        maNguoiBinhLuan: userInfo.id,
+        noiDung: value,
+        saoBinhLuan: 5,
+        ngayBinhLuan: moment().format('DD/MM/YYYY'),
+      };
+      dispatch(addCommentApi(data));
     }, 1000);
   };
 
   return (
     <>
-      {comments.length > 0 && <CommentList comments={comments} />}
       <div className='divider-content'></div>
       <h3 className='comment-title'>Bình Luận</h3>
       <Comment
-        avatar={
-          <Avatar src='https://joeschmoe.io/api/v1/random' alt='Han Solo' />
-        }
+        avatar={<Avatar src={userInfo.avatar} alt={userInfo.name} />}
         content={
           <Editor
             onChange={handleChange}

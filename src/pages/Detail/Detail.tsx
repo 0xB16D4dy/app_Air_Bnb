@@ -1,15 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import DetailOrder from '../../components/DetailOrder/DetailOrder';
 import DetailReview from '../../components/DetailReview/DetailReview';
+import { AppDispatch, RootState } from '../../redux/configStore';
+import { getDetailRoomByIdApi } from '../../redux/reducer/RoomReducer';
+import { Navigate } from 'react-router-dom';
+import { ACCESS_TOKEN, getStore } from '../../utils/setting';
+import { notification } from 'antd';
 
 type Props = {};
 
 export default function Detail({}: Props) {
+  const params = useParams();
+  const dispatch: AppDispatch = useDispatch();
+  const { detailRoom } = useSelector((state: RootState) => state.RoomReducer);
+
+  useEffect(() => {
+    const { id } = params;
+    dispatch(getDetailRoomByIdApi(parseInt(id as string)));
+  }, [params.id]);
+
+  if (!getStore(ACCESS_TOKEN)) {
+    notification.error({
+      message: `Unauthorized`,
+      description: 'Please login to access this page!!!',
+      placement: 'topRight',
+    });
+    return <Navigate to='/' />;
+  }
+
   return (
     <div style={{ paddingBlockStart: '80px' }} id='detail'>
       <div className='container'>
         <div className='detail__header'>
-          <h1 className='title'>Samujana Hai mươi giờ</h1>
+          <h1 className='title'>{detailRoom?.tenPhong}</h1>
           <div className='sub-title'>
             <div className='left-content'>
               <span className='rating'>
@@ -24,7 +49,7 @@ export default function Detail({}: Props) {
                 Chủ nhà siêu cấp
               </div>
               <span className='sub-text-divider'> · </span>
-              <span className='address'>Koh Samui, Suratthani, Thái Lan</span>
+              <span className='address'>Hồ Chí Minh, Việt Nam</span>
             </div>
             <div className='right-content'>
               <button className='btn btn-share'>
@@ -45,7 +70,7 @@ export default function Detail({}: Props) {
         <div className='detail__thumbnail'>
           <div className='thumbnail__image'>
             <img
-              src='https://picsum.photos/800/400'
+              src={detailRoom?.hinhAnh}
               alt='...'
               style={{ width: '100%', maxHeight: 'calc(70vh - 80px)' }}
             />
@@ -63,17 +88,15 @@ export default function Detail({}: Props) {
           <div className='detail__content-left'>
             <div className='content-title'>
               <div className='left-content'>
-                <h2 className='title'>
-                  Modernism and vintage Thai art on <br /> coastal hillside
-                </h2>
+                <h2 className='title'>{detailRoom?.tenPhong}</h2>
                 <div className='sub-title'>
-                  <span>16 khách</span>
+                  <span>{detailRoom?.khach} khách</span>
                   <span> · </span>
-                  <span>8 phòng ngủ</span>
+                  <span>{detailRoom?.phongNgu} phòng ngủ</span>
                   <span> · </span>
-                  <span>8 giường</span>
+                  <span>{detailRoom?.giuong} giường</span>
                   <span> · </span>
-                  <span>10 phòng tắm</span>
+                  <span>{detailRoom?.phongTam} phòng tắm</span>
                 </div>
               </div>
               <div className='right-content'>
@@ -153,11 +176,7 @@ export default function Detail({}: Props) {
                   </div>
                 </button>
                 <div className='main-content'>
-                  The ideal spot for entertaining large groups, twenty-four is
-                  the biggest and most amenity filled villa in the Samujana
-                  development. Indoor and outdoor areas are spacious enough for
-                  a large amount of guests, merging seamlessly in an open
-                  concept design. Perfect for the sunrise and ... <br />
+                  {detailRoom?.moTa} ... <br />
                   <button className='btn btn-more-info'>Tìm hiểu thêm</button>
                 </div>
               </div>
@@ -168,38 +187,44 @@ export default function Detail({}: Props) {
                 <h3 className='title'>Nơi này có những gì cho bạn</h3>
               </div>
               <div className='row'>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <i className='fa-solid fa-utensils'></i>
+                {detailRoom?.bep && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <i className='fa-solid fa-utensils'></i>
+                        </div>
+                        <span className='text-item'>Bếp</span>
                       </div>
-                      <span className='text-item'>Bếp</span>
                     </div>
                   </div>
-                </div>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <i className='fas fa-wifi'></i>
+                )}
+                {detailRoom?.wifi && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <i className='fas fa-wifi'></i>
+                        </div>
+                        <span className='text-item'>Wifi</span>
                       </div>
-                      <span className='text-item'>Wifi</span>
                     </div>
                   </div>
-                </div>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <i className='fas fa-tv'></i>
+                )}
+                {detailRoom?.tivi && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <i className='fas fa-tv'></i>
+                        </div>
+                        <span className='text-item'>
+                          Tivi với truyền hình cap tiêu chuẩn
+                        </span>
                       </div>
-                      <span className='text-item'>
-                        Tivi với truyền hình cap tiêu chuẩn
-                      </span>
                     </div>
                   </div>
-                </div>
+                )}
                 <div className='col-6'>
                   <div className='item'>
                     <div className='item-content'>
@@ -210,13 +235,40 @@ export default function Detail({}: Props) {
                     </div>
                   </div>
                 </div>
+                {detailRoom?.dieuHoa && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <i className='fas fa-snowflake'></i>
+                        </div>
+                        <span className='text-item'>Điều hoà nhiệt độ</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {detailRoom?.hoBoi && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <i className='fas fa-swimming-pool'></i>
+                        </div>
+                        <span className='text-item'>Hồ bơi</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className='col-6'>
                   <div className='item'>
                     <div className='item-content'>
                       <div className='icon-item'>
-                        <i className='fas fa-snowflake'></i>
+                        <img
+                          src={require('../../assets/icons/flat-ironing-icon.png')}
+                          alt='flat-ironing-icon'
+                        />
                       </div>
-                      <span className='text-item'>Điều hoà nhiệt độ</span>
+                      <span className='text-item'>Bàn là</span>
                     </div>
                   </div>
                 </div>
@@ -225,21 +277,11 @@ export default function Detail({}: Props) {
                     <div className='item-content'>
                       <div className='icon-item'>
                         <img
-                          src={require('../../assets/icons/balcony-icon.png')}
-                          alt='balcony-icon'
+                          src={require('../../assets/icons/washing_machine-icon.png')}
+                          alt='washing_machine-icon'
                         />
                       </div>
-                      <span className='text-item'>Sân hoặc ban công</span>
-                    </div>
-                  </div>
-                </div>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <i className='fa-solid fa-fire-burner'></i>
-                      </div>
-                      <span className='text-item'>Lò sưởi trong nhà</span>
+                      <span className='text-item'>Máy giặt</span>
                     </div>
                   </div>
                 </div>
@@ -248,36 +290,26 @@ export default function Detail({}: Props) {
                     <div className='item-content'>
                       <div className='icon-item'>
                         <img
-                          src={require('../../assets/icons/fridge-icon.png')}
-                          alt='fridge-icon'
+                          src={require('../../assets/icons/iron-icon.png')}
+                          alt='iron-icon'
                         />
                       </div>
-                      <span className='text-item'>Tủ lạnh</span>
+                      <span className='text-item'>Bàn ủi</span>
                     </div>
                   </div>
                 </div>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <i className='fas fa-parking'></i>
+                {detailRoom?.doXe && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <i className='fas fa-parking'></i>
+                        </div>
+                        <span className='text-item'>Bãi đậu xe</span>
                       </div>
-                      <span className='text-item'>
-                        Bãi đậu xe thu phí nằm ngoài khuôn viên
-                      </span>
                     </div>
                   </div>
-                </div>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <i className='fas fa-calendar'></i>
-                      </div>
-                      <span className='text-item'>Cho phép ở dài hạn</span>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
               <button className='btn btn-utilities-view'>
                 <span className='btn-content'>
@@ -288,15 +320,17 @@ export default function Detail({}: Props) {
             </div>
           </div>
           <div className='content-booking'>
-            <DetailOrder />
-            
+            <DetailOrder
+              maPhong={detailRoom?.id}
+              giaTien={detailRoom?.giaTien}
+              khach={detailRoom?.khach}
+            />
           </div>
         </div>
         <div className='detail__review'>
           <div className='divider-content'></div>
-          <DetailReview />
+          <DetailReview id={params.id} />
         </div>
-      
       </div>
     </div>
   );

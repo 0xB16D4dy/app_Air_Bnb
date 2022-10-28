@@ -5,25 +5,33 @@ import {
   LikeOutlined,
 } from '@ant-design/icons';
 import { List, Tooltip, Comment, Button } from 'antd';
+import moment from 'moment';
 import React, { createElement, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/configStore';
+import {
+  CommentReviewModel,
+  getCommentReviewByIdApi,
+} from '../../redux/reducer/RoomReducer';
 import DetailComment from '../DetailComment/DetailComment';
 
-type Props = {};
+type Props = {
+  id: string | undefined;
+};
 
-export interface CommentItem {
-  author: string;
-  avatar: string;
-  content: React.ReactNode;
-  datetime: string;
-}
-
-export default function DetailReview({}: Props) {
+export default function DetailReview({ id }: Props) {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState<string | null>(null);
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  
+  const [comments, setComments] = useState<CommentReviewModel[]>([]);
+  const dispatch: AppDispatch = useDispatch();
+  const { arrComment } = useSelector((state: RootState) => state.RoomReducer);
+
+  useEffect(() => {
+    if (!!arrComment) setComments(arrComment);
+  }, [arrComment]);
 
   const like = () => {
     setLikes(1);
@@ -36,128 +44,17 @@ export default function DetailReview({}: Props) {
     setDislikes(1);
     setAction('disliked');
   };
-  const data = [
-    {
-      actions: [
-        <Tooltip key='comment-basic-like' title='Like'>
-          <span onClick={like}>
-            {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-            <span className='comment-action' style={{ paddingLeft: '8px' }}>
-              {likes}
-            </span>
-          </span>
-        </Tooltip>,
-        <Tooltip key='comment-basic-dislike' title='Dislike'>
-          <span onClick={dislike}>
-            {React.createElement(
-              action === 'disliked' ? DislikeFilled : DislikeOutlined
-            )}
-            <span className='comment-action' style={{ paddingLeft: '8px' }}>
-              {dislikes}
-            </span>
-          </span>
-        </Tooltip>,
-        <span key='comment-list-reply-to-0'>Reply to</span>,
-      ],
-      author: 'Han Solo',
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high
-          quality design resources (Sketch and Axure), to help people create
-          their product prototypes beautifully and efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title='2016-11-22 11:22:33'>
-          <span>8 hours ago</span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [
-        <Tooltip key='comment-basic-like' title='Like'>
-          <span onClick={like}>
-            {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-            <span className='comment-action' style={{ paddingLeft: '8px' }}>
-              {likes}
-            </span>
-          </span>
-        </Tooltip>,
-        <Tooltip key='comment-basic-dislike' title='Dislike'>
-          <span onClick={dislike}>
-            {React.createElement(
-              action === 'disliked' ? DislikeFilled : DislikeOutlined
-            )}
-            <span className='comment-action' style={{ paddingLeft: '8px' }}>
-              {dislikes}
-            </span>
-          </span>
-        </Tooltip>,
-        <span key='comment-list-reply-to-0'>Reply to</span>,
-      ],
-      author: 'Han Solo',
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high
-          quality design resources (Sketch and Axure), to help people create
-          their product prototypes beautifully and efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title='2016-11-22 10:22:33'>
-          <span>9 hours ago</span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [
-        <Tooltip key='comment-basic-like' title='Like'>
-          <span onClick={like}>
-            {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-            <span className='comment-action' style={{ paddingLeft: '8px' }}>
-              {likes}
-            </span>
-          </span>
-        </Tooltip>,
-        <Tooltip key='comment-basic-dislike' title='Dislike'>
-          <span onClick={dislike}>
-            {React.createElement(
-              action === 'disliked' ? DislikeFilled : DislikeOutlined
-            )}
-            <span className='comment-action' style={{ paddingLeft: '8px' }}>
-              {dislikes}
-            </span>
-          </span>
-        </Tooltip>,
-        <span key='comment-list-reply-to-0'>Reply to</span>,
-      ],
-      author: 'Han Solo',
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high
-          quality design resources (Sketch and Axure), to help people create
-          their product prototypes beautifully and efficiently...
-          <br />
-          <div className='btn btn-view-more'>Tìm hiểu thêm</div>
-        </p>
-      ),
-      datetime: (
-        <Tooltip title='2016-11-22 10:22:33'>
-          <span>9 hours ago</span>
-        </Tooltip>
-      ),
-    },
-  ];
 
   useEffect(() => {
     setInitLoading(false);
   }, []);
 
+  useEffect(() => {
+    dispatch(getCommentReviewByIdApi(parseInt(id as string)));
+  }, [dispatch, id]);
+
   const onLoadMore = () => {
-    setLoading(true); 
+    setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 3000);
@@ -253,25 +150,65 @@ export default function DetailReview({}: Props) {
       <List
         className='comment-list'
         // header={`${data.length} replies`}
+        loading={loading}
         loadMore={loadMore}
         grid={{ gutter: 4, column: 2, xs: 1, sm: 1, md: 2 }}
         itemLayout='vertical'
-        dataSource={data}
-        renderItem={(item) => (
-          <li className='wrapper-comment'>
-            <Comment
-              actions={item.actions}
-              author={item.author}
-              avatar={item.avatar}
-              content={item.content}
-              datetime={item.datetime}
-            />
-          </li>
-        )}
+        dataSource={comments}
+        renderItem={(item) => {
+          const date = item.ngayBinhLuan.split('/');
+          let updateDate: Array<number> = [];
+          for (let i in date) {
+            updateDate[i] = parseInt(date[i]);
+          }
+          return (
+            <li className='wrapper-comment'>
+              <Comment
+                actions={[
+                  <Tooltip key='comment-basic-like' title='Like'>
+                    <span onClick={like}>
+                      {createElement(
+                        action === 'liked' ? LikeFilled : LikeOutlined
+                      )}
+                      <span
+                        className='comment-action'
+                        style={{ paddingLeft: '8px' }}
+                      >
+                        {likes}
+                      </span>
+                    </span>
+                  </Tooltip>,
+                  <Tooltip key='comment-basic-dislike' title='Dislike'>
+                    <span onClick={dislike}>
+                      {React.createElement(
+                        action === 'disliked' ? DislikeFilled : DislikeOutlined
+                      )}
+                      <span
+                        className='comment-action'
+                        style={{ paddingLeft: '8px' }}
+                      >
+                        {dislikes}
+                      </span>
+                    </span>
+                  </Tooltip>,
+                  <span key='comment-list-reply-to-0'>Reply to</span>,
+                ]}
+                author={item.tenNguoiBinhLuan}
+                avatar={item.avatar}
+                content={<p>{item.noiDung}</p>}
+                datetime={
+                  <Tooltip title={item.ngayBinhLuan}>
+                    <span>{moment(updateDate,'DD/MM/YYYY').fromNow()}</span>
+                  </Tooltip>
+                }
+              />
+            </li>
+          );
+        }}
       />
-        <div className='detail__comment'>
-          <DetailComment />
-        </div>
+      <div className='detail__comment'>
+        <DetailComment maPhong={id} />
+      </div>
     </div>
   );
 }
