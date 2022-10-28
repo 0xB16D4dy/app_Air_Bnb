@@ -36,7 +36,7 @@ export default function ManagementUser({}: Props) {
       }}
     >
       <div className='title'>
-        <h3 className='content-title'>Quản trị viên</h3>
+        <h3 className='content-title'>Quản lý người dùng</h3>
         <ModalAddAdmin />
       </div>
       <Search

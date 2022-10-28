@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import locationReducer from './reducer/locationReducer';
+import managementBookingReducer from './reducer/managementBookingReducer';
 import managementUserReducer from './reducer/managementUserReducer';
 import RoomReducer from './reducer/RoomReducer';
 import { signInApi } from './signin';
@@ -11,6 +12,7 @@ export const store = configureStore({
     locationReducer,
     RoomReducer,
     accountState,
+    managementBookingReducer,
     managementUserReducer,
     [signInApi.reducerPath]: signInApi.reducer,
     [userApi.reducerPath]: userApi.reducer

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Input } from 'antd';
-import ModalAddAdmin from '../../components/ModalAddAdmin/ModalAddAdmin';
 import TableBooking from '../../components/TableBooking/TableBooking';
+import ModalAddBooking from '../../components/ModalAddBooking/ModalAddBooking';
 
 type Props = {};
 
@@ -20,8 +20,8 @@ export default function ManagementBooking({}: Props) {
       }}
     >
       <div className='title'>
-        <h3 className='content-title'>Quản trị viên</h3>
-        <ModalAddAdmin />
+        <h3 className='content-title'>Quản lý đặt phòng</h3>
+        <ModalAddBooking/>
       </div>
       <Search
         size='large'

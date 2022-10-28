@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Input } from 'antd';
-import ModalAddAdmin from '../../components/ModalAddAdmin/ModalAddAdmin';
 import TableLocation from '../../components/TableLocation/TableLocation';
+import ModalAddLocation from '../../components/ModalAddLocation/ModalAddLocation';
 
 type Props = {};
 
@@ -20,8 +20,8 @@ export default function ManagementLocation({}: Props) {
       }}
     >
       <div className='title'>
-        <h3 className='content-title'>Quản trị viên</h3>
-        <ModalAddAdmin />
+        <h3 className='content-title'>Quản lý vị trí</h3>
+        <ModalAddLocation/>
       </div>
       <Search
         size='large'

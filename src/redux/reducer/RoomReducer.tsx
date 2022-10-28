@@ -56,6 +56,7 @@ const initialState: any = {
   arrRoom: [],
   detailRoom: {},
   arrComment: [],
+  arrAllRoom : [],
 };
 
 const RoomReducer = createSlice({
@@ -74,6 +75,9 @@ const RoomReducer = createSlice({
     ) => {
       state.arrComment = action.payload;
     },
+    getAllRoomAction: (state,action:PayloadAction<RoomModel[]>)=>{
+      state.arrAllRoom = action.payload;
+    }
   },
 });
 
@@ -81,6 +85,7 @@ export const {
   getRoomByIDAction,
   getDetailRoomByIdAction,
   getCommentReviewByIdAction,
+  getAllRoomAction
 } = RoomReducer.actions;
 
 export default RoomReducer.reducer;
@@ -158,3 +163,17 @@ export const addCommentApi = (data: AddCommentModel) => {
     } catch (error) {}
   };
 };
+
+//------------- api management Room -------------
+
+export const getAllRoomApi = () => {
+  return async (dispatch:AppDispatch) => {
+    try {
+      const result = await http.get('/phong-thue');
+      // console.log(result.data.content);
+      dispatch(getAllRoomAction(result.data.content))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}

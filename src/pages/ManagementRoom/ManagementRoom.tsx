@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Input } from 'antd';
 import ModalAddAdmin from '../../components/ModalAddAdmin/ModalAddAdmin';
 import TableRoom from '../../components/TableRoom/TableRoom';
+import ModalAddRoom from '../../components/ModalAddRoom/ModalAddRoom';
 
 type Props = {};
 
@@ -20,8 +21,8 @@ export default function ManagementRoom({}: Props) {
       }}
     >
       <div className='title'>
-        <h3 className='content-title'>Quản trị viên</h3>
-        <ModalAddAdmin />
+        <h3 className='content-title'>Quản lý phòng</h3>
+        <ModalAddRoom/>
       </div>
       <Search
         size='large'
