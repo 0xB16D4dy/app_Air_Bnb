@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { Avatar, MenuProps } from 'antd';
 import { Dropdown, Menu } from 'antd';
 import MenuDivider from 'antd/lib/menu/MenuDivider';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/configStore';
+import { AppDispatch, RootState } from '../../redux/configStore';
 import { User } from '../../redux/signin/types';
 import { logOut } from '../../redux/signin/account';
-import { ACCESS_TOKEN, setStoreJson, USER_INFO, USER_LOGIN } from '../../utils/setting';
+import { ACCESS_TOKEN, USER_INFO, USER_LOGIN } from '../../utils/setting';
+import { getLocationApi } from '../../redux/reducer/locationReducer';
 
 type Props = {
   handleOpenLogin: (value: boolean) => void;
@@ -22,17 +23,17 @@ const renderUserDropdownMenu = (
   onClickItem: any
 ) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logOut())
-    localStorage.removeItem(ACCESS_TOKEN)
-    localStorage.removeItem(USER_INFO)
-    localStorage.removeItem(USER_LOGIN)
-    navigate('/')
-    window.location.reload()
-  }
+    dispatch(logOut());
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(USER_INFO);
+    localStorage.removeItem(USER_LOGIN);
+    navigate('/');
+    window.location.reload();
+  };
 
   return accessToken ? (
     <Dropdown
@@ -114,7 +115,11 @@ const renderUserDropdownMenu = (
             {
               key: '10',
               label: (
-                <NavLink onClick={handleLogout} rel='noopener noreferrer' to='/'>
+                <NavLink
+                  onClick={handleLogout}
+                  rel='noopener noreferrer'
+                  to='/'
+                >
                   Đăng xuất
                 </NavLink>
               ),
@@ -233,6 +238,11 @@ export default function Header({ handleOpenLogin }: Props) {
   const { accessToken, user } = useSelector(
     (state: RootState) => state.accountState.myAccount
   );
+  const { arrLocation } = useSelector(
+    (state: RootState) => state.locationReducer
+  );
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onClick: MenuProps['onClick'] = (e) => {
     setCurrent(e.key);
@@ -247,6 +257,33 @@ export default function Header({ handleOpenLogin }: Props) {
     e.preventDefault();
     console.log('search');
   };
+
+  const renderResultLookup = () => {
+    return arrLocation.map((item: any, index: number) => {
+      return (
+        <div
+          className='result-item'
+          onClick={() => {
+            // <Navigate to={`/location/${item.id}`}/>
+            navigate(`/location/${item.id}`);
+            setDropdown(false)
+          }}
+        >
+          <div className='result-icon'>
+            <i className='fa fa-location-arrow' aria-hidden='true'></i>
+          </div>
+          <div className='result-location'>
+            <div className='text-location'>{item.tenViTri}</div>
+          </div>
+        </div>
+      );
+    });
+  };
+
+  useEffect(() => {
+    dispatch(getLocationApi());
+  }, []);
+
   return (
     <div className='header'>
       {dropdown ? (
@@ -326,32 +363,7 @@ export default function Header({ handleOpenLogin }: Props) {
                                       <div className='form__btn-result-cover'>
                                         <div className='form__btn-result-content'>
                                           <div className='result-list'>
-                                            <div className='result-item'>
-                                              <div className='result-icon'>
-                                                <i
-                                                  className='fa fa-location-arrow'
-                                                  aria-hidden='true'
-                                                ></i>
-                                              </div>
-                                              <div className='result-location'>
-                                                <div className='text-location'>
-                                                  abcacb
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className='result-item'>
-                                              <div className='result-icon'>
-                                                <i
-                                                  className='fa fa-location-arrow'
-                                                  aria-hidden='true'
-                                                ></i>
-                                              </div>
-                                              <div className='result-location'>
-                                                <div className='text-location'>
-                                                  abcacb
-                                                </div>
-                                              </div>
-                                            </div>
+                                            {renderResultLookup()}
                                           </div>
                                         </div>
                                       </div>

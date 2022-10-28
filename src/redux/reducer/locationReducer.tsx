@@ -3,14 +3,15 @@ import { http } from '../../utils/setting';
 import { AppDispatch } from '../configStore';
 
 export interface LocationModel {
-    id:        number;
-    tenViTri:  string;
-    tinhThanh: string;
-    quocGia:   string;
-    hinhAnh:   string;
+  id: number;
+  tenViTri: string;
+  tinhThanh: string;
+  quocGia: string;
+  hinhAnh: string;
 }
 
 const initialState: any = {
+  arrLocation: [],
   arrPlaceCard: [],
 };
 
@@ -18,8 +19,11 @@ const locationReducer = createSlice({
   name: 'locationReducer',
   initialState,
   reducers: {
-    getLocationAction:(state,action: PayloadAction<LocationModel[]>)=>{
-      state.arrLocation = action.payload
+    getLocationAction: (state, action: PayloadAction<LocationModel[]>) => {
+      state.arrLocation = action.payload;
+    },
+    getLocationFilterByKeywordAction:(state, action:PayloadAction<string>)=>{
+        
     },
     getLocationRecentAction: (
       state,
@@ -30,7 +34,8 @@ const locationReducer = createSlice({
   },
 });
 
-export const { getLocationRecentAction,getLocationAction  } = locationReducer.actions;
+export const { getLocationRecentAction, getLocationAction, getLocationFilterByKeywordAction } =
+  locationReducer.actions;
 
 export default locationReducer.reducer;
 
@@ -39,8 +44,9 @@ export default locationReducer.reducer;
 export const getLocationApi = () => {
   return async (dispatch: AppDispatch) => {
     try {
-      const result = http.get('/vi-tri');
+      const result = await http.get('/vi-tri');
       console.log(result.data.content);
+      dispatch(getLocationAction(result.data.content));
     } catch (error) {
       console.log(error);
     }
