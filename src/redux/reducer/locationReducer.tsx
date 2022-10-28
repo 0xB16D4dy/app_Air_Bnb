@@ -22,9 +22,6 @@ const locationReducer = createSlice({
     getLocationAction: (state, action: PayloadAction<LocationModel[]>) => {
       state.arrLocation = action.payload;
     },
-    getLocationFilterByKeywordAction:(state, action:PayloadAction<string>)=>{
-        
-    },
     getLocationRecentAction: (
       state,
       action: PayloadAction<LocationModel[]>
@@ -34,7 +31,7 @@ const locationReducer = createSlice({
   },
 });
 
-export const { getLocationRecentAction, getLocationAction, getLocationFilterByKeywordAction } =
+export const { getLocationRecentAction, getLocationAction } =
   locationReducer.actions;
 
 export default locationReducer.reducer;
@@ -45,8 +42,30 @@ export const getLocationApi = () => {
   return async (dispatch: AppDispatch) => {
     try {
       const result = await http.get('/vi-tri');
-      console.log(result.data.content);
       dispatch(getLocationAction(result.data.content));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const searchLocationFilterApi = (keyword: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.get('/vi-tri');
+      let arrResult = result.data.content;
+      let updateArrRes = [];
+      for (let i = 0; i < arrResult.length; i++) {
+        if (
+          arrResult[i].tenViTri
+            .toLowerCase()
+            .trim()
+            .includes(keyword.toLowerCase().trim())
+        ) {
+          updateArrRes.push(arrResult[i]);
+        }
+      }
+      dispatch(getLocationAction(updateArrRes));
     } catch (error) {
       console.log(error);
     }

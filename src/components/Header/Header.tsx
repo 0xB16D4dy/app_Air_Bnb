@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { Avatar, MenuProps } from 'antd';
 import { Dropdown, Menu } from 'antd';
@@ -9,7 +9,11 @@ import { AppDispatch, RootState } from '../../redux/configStore';
 import { User } from '../../redux/signin/types';
 import { logOut } from '../../redux/signin/account';
 import { ACCESS_TOKEN, USER_INFO, USER_LOGIN } from '../../utils/setting';
-import { getLocationApi } from '../../redux/reducer/locationReducer';
+import {
+  getLocationApi,
+  LocationModel,
+  searchLocationFilterApi,
+} from '../../redux/reducer/locationReducer';
 
 type Props = {
   handleOpenLogin: (value: boolean) => void;
@@ -243,15 +247,52 @@ export default function Header({ handleOpenLogin }: Props) {
   );
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+      /* you can also use 'auto' behaviour
+         in place of 'smooth' */
+    });
+  };
+
+  useLayoutEffect(() => {
+    if (dropdown) {
+      if (scrollPosition > 80) {
+        setDropdown(false);
+      }
+    }
+  }, [scrollPosition, dropdown]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const onClick: MenuProps['onClick'] = (e) => {
     setCurrent(e.key);
   };
   const onClickSearch = () => {
     setDropdown(true);
+    handleScrollToTop();
   };
   const onSearch = (e: any) => {
     setKeyword(e.target.value);
+    let keyword = e.target.value;
+    if (keyword) {
+      dispatch(searchLocationFilterApi(keyword));
+    } else {
+      dispatch(getLocationApi());
+    }
   };
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -259,15 +300,28 @@ export default function Header({ handleOpenLogin }: Props) {
   };
 
   const renderResultLookup = () => {
-    return arrLocation.map((item: any, index: number) => {
+    if (arrLocation == '') {
+      return (
+        <div className='result-item'>
+          <div className='result-icon'>
+            <i className='fa fa-location-arrow' aria-hidden='true'></i>
+          </div>
+          <div className='result-location'>
+            <div className='text-location'>Không tìm thấy kết quả</div>
+          </div>
+        </div>
+      );
+    }
+    return arrLocation?.map((item: LocationModel, index: number) => {
       return (
         <div
           className='result-item'
           onClick={() => {
             // <Navigate to={`/location/${item.id}`}/>
             navigate(`/location/${item.id}`);
-            setDropdown(false)
+            setDropdown(false);
           }}
+          key={index}
         >
           <div className='result-icon'>
             <i className='fa fa-location-arrow' aria-hidden='true'></i>
@@ -282,7 +336,7 @@ export default function Header({ handleOpenLogin }: Props) {
 
   useEffect(() => {
     dispatch(getLocationApi());
-  }, []);
+  }, [dropdown]);
 
   return (
     <div className='header'>
@@ -357,21 +411,17 @@ export default function Header({ handleOpenLogin }: Props) {
                                     />
                                   </div>
                                 </label>
-                                {keyword !== '' ? (
-                                  <div className='form__btn-result'>
-                                    <div className='form__btn-result-wrapper'>
-                                      <div className='form__btn-result-cover'>
-                                        <div className='form__btn-result-content'>
-                                          <div className='result-list'>
-                                            {renderResultLookup()}
-                                          </div>
+                                <div className='form__btn-result'>
+                                  <div className='form__btn-result-wrapper'>
+                                    <div className='form__btn-result-cover'>
+                                      <div className='form__btn-result-content'>
+                                        <div className='result-list'>
+                                          {renderResultLookup()}
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                ) : (
-                                  ''
-                                )}
+                                </div>
                               </div>
                             </div>
                             <div className='search__divider'></div>

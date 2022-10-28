@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Button, DatePicker, Form, Input, Modal, Radio, Select } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Select,
+} from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { AppDispatch } from '../../redux/configStore';
@@ -106,6 +115,19 @@ export default function ModalAddAdmin() {
             label='Password'
             rules={[
               {
+                validator: (_, value) => {
+                  let pattern =
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+                  if (value && !pattern.test(value)) {
+                    return Promise.reject(
+                      'Password need to minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter and 1 number'
+                    );
+                  } else {
+                    return Promise.resolve();
+                  }
+                },
+              },
+              {
                 required: true,
                 message: 'Please input your password!',
               },
@@ -119,6 +141,7 @@ export default function ModalAddAdmin() {
             label='Phone'
             rules={[
               { required: true, message: 'Please input your phone number!' },
+              { pattern: /^0.\d{1,9}$/, message: 'Phone number invalid' },
             ]}
           >
             <Input />
