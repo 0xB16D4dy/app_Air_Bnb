@@ -41,7 +41,7 @@ export default function ManagementUser({}: Props) {
       </div>
       <Search
         size='large'
-        placeholder='input search text'
+        placeholder='Nhập tên người dùng'
         onSearch={onSearch}
         onChange={onChange}
         enterButton='Search'

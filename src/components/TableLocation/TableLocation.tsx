@@ -13,7 +13,7 @@ import ModalUploadLocation from '../ModalUploadLocation/ModalUploadLocation';
 type Props = {};
 
 const scroll: { y?: number | string } = {};
-scroll.y = 400;
+scroll.y = 580;
 
 export default function TableLocation({}: Props) {
   const dispatch: AppDispatch = useDispatch();

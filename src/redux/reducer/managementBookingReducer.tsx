@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { notification } from 'antd';
 import { http } from '../../utils/setting';
-import { AppDispatch } from '../configStore';
+import { AppDispatch, RootState } from '../configStore';
 import { BookRoomModel } from './RoomReducer';
 
 const initialState: any = {
   arrBooking: [],
+  bookingEdit: {},
 };
 
 const managementBookingReducer = createSlice({
@@ -14,10 +16,14 @@ const managementBookingReducer = createSlice({
     getAllBookingAction: (state, action: PayloadAction<BookRoomModel[]>) => {
       state.arrBooking = action.payload;
     },
+    getBookingByIdAction: (state, action: PayloadAction<BookRoomModel>) => {
+      state.bookingEdit = action.payload;
+    },
   },
 });
 
-export const { getAllBookingAction } = managementBookingReducer.actions;
+export const { getAllBookingAction, getBookingByIdAction } =
+  managementBookingReducer.actions;
 
 export default managementBookingReducer.reducer;
 
@@ -27,6 +33,60 @@ export const getAllBookingApi = () => {
   return async (dispatch: AppDispatch) => {
     try {
       const result = await http.get('/dat-phong');
+      dispatch(getAllBookingAction(result.data.content));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getBookingByIdApi = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.get(`/dat-phong/${id}`);
+      console.log(result.data.content);
+      dispatch(getBookingByIdAction(result.data.content));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteBookingByIdApi = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.delete(`/dat-phong/${id}`);
+      // console.log(result.data.message)
+      notification.error({
+        message: 'Delete Booking Room',
+        description: result.data.message,
+        placement: 'topRight',
+      });
+      dispatch(getAllBookingApi());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const editBookingByIdApi = (data: BookRoomModel) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.put(`/dat-phong/${data.id}`);
+      console.log(result.data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const searchBookingByUserIdApi = (maNguoiDung: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.get(
+        `/dat-phong/lay-theo-nguoi-dung/${maNguoiDung}`
+      );
+      console.log(result.data.content);
       dispatch(getAllBookingAction(result.data.content));
     } catch (error) {
       console.log(error);

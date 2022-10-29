@@ -5,8 +5,9 @@ import type { ColumnsType } from 'antd/es/table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { BookRoomModel } from '../../redux/reducer/RoomReducer';
-import { getAllBookingApi } from '../../redux/reducer/managementBookingReducer';
+import { deleteBookingByIdApi, getAllBookingApi, getBookingByIdApi } from '../../redux/reducer/managementBookingReducer';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
@@ -18,12 +19,14 @@ export default function TableBooking({}: Props) {
     (state: RootState) => state.managementBookingReducer
   );
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const onDelete = ({ id }: any) => {
-    console.log(id);
+  const onDelete = ({ id }:any) => {
+    dispatch(deleteBookingByIdApi(id))
   };
-  const onEdit = ({ id }: any) => {
-    console.log(id);
+  const onEdit = ({ id }:any) => {
+    // dispatch(getBookingByIdApi(id));
+    navigate(`/admin/edit-book/${id}`)
   };
 
   const columns: ColumnsType<BookRoomModel> = [
@@ -35,14 +38,14 @@ export default function TableBooking({}: Props) {
       title: 'Ngày đến',
       dataIndex: 'ngayDen',
       render: (item, _, index) => {
-        return <div>{moment(item).format('DD/MM/YYYY')}</div>;
+        return <div key={index}>{moment(item).format('DD/MM/YYYY')}</div>;
       },
     },
     {
       title: 'Ngày đi',
       dataIndex: 'ngayDi',
       render: (item, _, index) => {
-        return <div>{moment(item).format('DD/MM/YYYY')}</div>;
+        return <div key={index}>{moment(item).format('DD/MM/YYYY')}</div>;
       },
     },
     {

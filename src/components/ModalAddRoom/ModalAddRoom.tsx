@@ -36,7 +36,6 @@ export default function ModalAddRoom({}: Props) {
   const onFinish = (values: any) => {
     console.log({
       ...values,
-      birthday: values['birthday'].format('DD/MM/YYYY'),
     });
     setIsModalOpen(false);
   };
@@ -61,6 +60,17 @@ export default function ModalAddRoom({}: Props) {
           wrapperCol={{ span: 8 }}
           form={form}
           onFinish={onFinish}
+          initialValues={{
+            wifi:false,
+            tivi:false,
+            bep:false,
+            banLa:false,
+            banUi:false,
+            mayGiat:false,
+            dieuHoa:false,
+            hoBoi:false,
+            doXe:false
+          }}
         >
           <Row gutter={32}>
             <Col span={24}>

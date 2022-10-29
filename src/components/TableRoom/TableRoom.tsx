@@ -32,7 +32,7 @@ export default function TableRoom({}: Props) {
     {
       title: 'Tên phòng',
       dataIndex: 'tenPhong',
-      width: 200,
+      width: 300,
       render: (item, _, index) => {
         return (
           <div
@@ -74,6 +74,7 @@ export default function TableRoom({}: Props) {
     {
       title: <div className='text-center'>Giá tiền</div>,
       dataIndex: 'giaTien',
+      width:100,
       render: (item, _, index) => (
         <div key={index} className='text-center'>
           {item}&nbsp;$
@@ -83,6 +84,7 @@ export default function TableRoom({}: Props) {
     {
       title: 'Action',
       key: 'action',
+      width:100,
       render: (_, record, index) => (
         <Space size='middle' key={index}>
           <Button

@@ -126,7 +126,7 @@ export default function TableUser({}: Props) {
   };
   const onEdit = ({id}:UserModal) => {
     navigate(`/admin/edit-user/${id}`)
-    console.log(id);
+    // console.log(id);
   };
 
   useEffect(() => {
