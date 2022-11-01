@@ -34,7 +34,7 @@ function UpdateInfoForm(props: Props) {
 	const onFinish = (values: any) => {
 		const { user: dataUpdate } = values;
 		dataUpdate.birthday = moment(dataUpdate.birthday).format("DD-MM-YYYY");
-		updateInfo({ dataUpdate, userId: user.id });
+		updateInfo({...user,...dataUpdate});
 	};
 
 	const onChangeGender = (e: RadioChangeEvent) => {

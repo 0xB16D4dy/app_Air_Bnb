@@ -9,6 +9,8 @@ import { Button, Form, Input, Modal } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/signin";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configStore";
 
 type Props = {
 	children: ReactNode;
@@ -17,7 +19,10 @@ type Props = {
 };
 
 export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const { accessToken, user } = useSelector(
+		(state: RootState) => state.accountState.myAccount
+	);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [login, { isError, isSuccess, error, isLoading }] = useLoginMutation();
 
@@ -39,10 +44,15 @@ export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 		if (isSuccess) {
 			setIsModalOpen(false);
 			onOpenLogin(false);
-			navigate('/')
-			window.location.reload()
+			window.location.reload();
 		}
-	}, [isError, error, isSuccess]);
+
+		if (!!accessToken && !!user) {
+			user.role?.toLocaleLowerCase() === "admin"
+				? navigate("/admin/management-user")
+				: navigate("/");
+		}
+	}, [isError, error, isSuccess, accessToken]);
 
 	const handleOk = () => {
 		setIsModalOpen(false);
