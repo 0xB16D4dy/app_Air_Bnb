@@ -26,7 +26,7 @@ export default function TableBooking({}: Props) {
   };
   const onEdit = ({ id }:any) => {
     // dispatch(getBookingByIdApi(id));
-    navigate(`/admin/edit-book/${id}`)
+    navigate(`/admin/edit-booking/${id}`)
   };
 
   const columns: ColumnsType<BookRoomModel> = [

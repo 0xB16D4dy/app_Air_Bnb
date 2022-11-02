@@ -7,14 +7,25 @@ import {
   KeyOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Avatar, Dropdown } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Layout, Menu, Avatar, Dropdown, notification } from 'antd';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import {
+  ACCESS_TOKEN,
+  getStore,
+  getStoreJson,
+  USER_INFO,
+} from '../utils/setting';
 type Props = {
   children?: JSX.Element;
 };
 
 const { Header, Sider } = Layout;
 
+const handleLogout = () => {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(USER_INFO);
+  window.location.reload();
+};
 
 const MenuSider = [
   {
@@ -47,7 +58,11 @@ const MenuDropdown = [
   },
   {
     key: '2',
-    label: <a href='/'>Đăng xuất</a>,
+    label: (
+      <a href='/' onClick={handleLogout}>
+        Đăng xuất
+      </a>
+    ),
     className: 'nav-link',
   },
 ];
@@ -55,6 +70,17 @@ const MenuDropdown = [
 export default function DashBoardTemplate({ children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const role = getStoreJson(USER_INFO).role;
+
+  if (!(getStore(ACCESS_TOKEN) && role !== 'USER')) {
+    notification.error({
+      message: `Unauthorized`,
+      description: 'You are not admin!!!',
+      placement: 'topRight',
+    });
+    return <Navigate to='/' />;
+  }
+
   return (
     <>
       <Layout>
@@ -67,9 +93,8 @@ export default function DashBoardTemplate({ children }: Props) {
           <Menu
             theme='dark'
             mode='inline'
-            defaultSelectedKeys={['management-user']}
             onSelect={(e) => {
-              navigate(e.key)
+              navigate(e.key);
             }}
             items={MenuSider}
           />
@@ -87,7 +112,7 @@ export default function DashBoardTemplate({ children }: Props) {
               }
             )}
             <div className='userLogin'>
-              <span className='label-user'>ADMIN</span>
+              <span className='label-user'>ADMIN {getStoreJson(USER_INFO).name}</span>
               <Dropdown
                 overlay={<Menu items={MenuDropdown} />}
                 placement='bottomRight'
@@ -95,7 +120,7 @@ export default function DashBoardTemplate({ children }: Props) {
                 overlayClassName='site-header__userLogin-dropdown'
               >
                 <Avatar
-                  src='https://joeschmoe.io/api/v1/random'
+                  src={getStoreJson(USER_INFO).avatar}
                   size={{ xs: 24, sm: 32, md: 40 }}
                   icon={<UserOutlined />}
                   className='avatar'
@@ -103,7 +128,7 @@ export default function DashBoardTemplate({ children }: Props) {
               </Dropdown>
             </div>
           </Header>
-          <Outlet/>
+          <Outlet />
         </Layout>
       </Layout>
     </>

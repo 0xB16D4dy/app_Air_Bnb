@@ -1,20 +1,9 @@
 import React, { useEffect } from 'react';
-import {
-  Button,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Layout,
-  Row,
-  Select,
-  Space,
-} from 'antd';
+import { Button, DatePicker, Form, Input, Layout, Select, Space } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  EditUserModal,
   editUserByIdApi,
   getUserByIdApi,
 } from '../../redux/reducer/managementUserReducer';
@@ -46,23 +35,23 @@ export default function EditUser({}: Props) {
   const navigate = useNavigate();
 
   const onFinish = (values: any) => {
-    // console.log('Received values of form: ', {
-    //   ...values,
-    //   birthday: values['birthday'].format('DD/MM/YYYY'),
-    // });
-
     const id = params.id as string;
     const data = {
       id,
       value: { ...values, birthday: values['birthday'].format('DD/MM/YYYY') },
     };
     dispatch(editUserByIdApi(data));
+    onReset()
+  };
+
+  const onReset = () => {
+    form.resetFields();
   };
 
   useEffect(() => {
     const { id } = params;
     dispatch(getUserByIdApi(id));
-  }, []);
+  }, [params.id]);
 
   useEffect(() => {
     if (userEdit) {
@@ -78,7 +67,7 @@ export default function EditUser({}: Props) {
         role: userEdit.role,
       });
     }
-  }, [userEdit.id]);
+  }, [userEdit.id, userEdit]);
 
   return (
     <Content
@@ -138,7 +127,7 @@ export default function EditUser({}: Props) {
           label='Phone Number'
           rules={[
             { required: true, message: 'Please input your phone number!' },
-            { pattern: /^0.\d{1,9}$/, message: 'Phone number invalid' }
+            { pattern: /^0.\d{1,9}$/, message: 'Phone number invalid' },
           ]}
         >
           <Input />
@@ -174,13 +163,14 @@ export default function EditUser({}: Props) {
             <Option value='ADMIN'>ADMIN</Option>
           </Select>
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 4 }}>
+        <Form.Item wrapperCol={{ offset: 4, span: 4 }}>
           <Space size={'middle'}>
             <Button type='primary' htmlType='submit'>
               Edit User
             </Button>
             <Button
               onClick={() => {
+                onReset()
                 navigate(-1);
               }}
             >

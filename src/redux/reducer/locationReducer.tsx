@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { notification } from 'antd';
 import { http } from '../../utils/setting';
 import { AppDispatch } from '../configStore';
 
@@ -13,6 +14,7 @@ export interface LocationModel {
 const initialState: any = {
   arrLocation: [],
   arrPlaceCard: [],
+  editLocation:{},
 };
 
 const locationReducer = createSlice({
@@ -28,10 +30,13 @@ const locationReducer = createSlice({
     ) => {
       state.arrPlaceCard = action.payload;
     },
+    getLocationByIdAction:(state,action:PayloadAction<LocationModel>)=>{
+      state.editLocation = action.payload;
+    }
   },
 });
 
-export const { getLocationRecentAction, getLocationAction } =
+export const { getLocationRecentAction, getLocationAction, getLocationByIdAction } =
   locationReducer.actions;
 
 export default locationReducer.reducer;
@@ -86,4 +91,64 @@ export const getLocationRecentApi = () => {
   };
 };
 
+export const createLocationApi = (data:LocationModel) => {
+  return async (dispatch:AppDispatch) => {
+    try {
+      const result = await http.post('/vi-tri',data);
+      notification.success({
+        message: 'Delete Booking Room',
+        description: result.data.message,
+        placement: 'topRight',
+      });
+      dispatch(getLocationApi());
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
+export const deleteLocationApi = (id:number) => {
+  return async (dispatch:AppDispatch) => {
+    try {
+      const result = await http.delete(`/vi-tri/${id}`)
+      // console.log(result.data.message);
+      notification.error({
+        message: 'Delete Booking Room',
+        description: result.data.message,
+        placement: 'topRight',
+      });
+      dispatch(getLocationApi());
+    } catch (error) {
+      console.log(error)
+    }
+  }
+};
+
+export const getLocationByIdApi = (id:number) =>{
+  return async (dispatch:AppDispatch) => {
+    try {
+      const result = await http.get(`/vi-tri/${id}`)
+      // console.log(result.data.content);
+      dispatch(getLocationByIdAction(result.data.content))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const editLocationByIdApi = (data:LocationModel) => {
+  return async (dispatch:AppDispatch) => {
+    try {
+      const result = await http.put(`/vi-tri/${data.id}`,data)
+      // console.log(result.data.message);
+      notification.success({
+        message: 'Update Location',
+        description: result.data.message,
+        placement: 'topRight',
+      });
+      dispatch(getLocationApi());
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}

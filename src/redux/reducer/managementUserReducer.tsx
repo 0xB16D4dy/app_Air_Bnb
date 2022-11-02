@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { notification } from 'antd';
 import customHistory from '../../utils/history';
 import { http } from '../../utils/setting';
 import { AppDispatch } from '../configStore';
@@ -81,6 +82,11 @@ export const editUserByIdApi = (data: EditUserModal) => {
   return async (dispatch: AppDispatch) => {
     try {
       const result = await http.put(`/users/${data.id}`, data.value);
+      notification.success({
+        message: 'Edit User',
+        description: 'Successfully modified information',
+        placement: 'topRight',
+      });
       customHistory.push('/admin/management-user');
       dispatch(getAllUserApi());
     } catch (error) {

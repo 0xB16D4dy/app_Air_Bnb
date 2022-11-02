@@ -5,7 +5,7 @@ import { http } from '../../utils/setting';
 import { AppDispatch } from '../configStore';
 
 export interface RoomModel {
-  id: number;
+  id?: number;
   tenPhong: string;
   khach: number;
   phongNgu: number;
@@ -56,7 +56,8 @@ const initialState: any = {
   arrRoom: [],
   detailRoom: {},
   arrComment: [],
-  arrAllRoom : [],
+  arrAllRoom: [],
+  editRoom: {},
 };
 
 const RoomReducer = createSlice({
@@ -75,9 +76,12 @@ const RoomReducer = createSlice({
     ) => {
       state.arrComment = action.payload;
     },
-    getAllRoomAction: (state,action:PayloadAction<RoomModel[]>)=>{
+    getAllRoomAction: (state, action: PayloadAction<RoomModel[]>) => {
       state.arrAllRoom = action.payload;
-    }
+    },
+    getRoomToEditAction: (state, action: PayloadAction<RoomModel>) => {
+      state.editRoom = action.payload;
+    },
   },
 });
 
@@ -85,7 +89,8 @@ export const {
   getRoomByIDAction,
   getDetailRoomByIdAction,
   getCommentReviewByIdAction,
-  getAllRoomAction
+  getAllRoomAction,
+  getRoomToEditAction,
 } = RoomReducer.actions;
 
 export default RoomReducer.reducer;
@@ -159,7 +164,7 @@ export const addCommentApi = (data: AddCommentModel) => {
         description: `Comment Successful`,
         placement: 'topRight',
       });
-      dispatch(getCommentReviewByIdApi(data.maPhong))
+      dispatch(getCommentReviewByIdApi(data.maPhong));
     } catch (error) {}
   };
 };
@@ -167,13 +172,74 @@ export const addCommentApi = (data: AddCommentModel) => {
 //------------- api management Room -------------
 
 export const getAllRoomApi = () => {
-  return async (dispatch:AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     try {
       const result = await http.get('/phong-thue');
       // console.log(result.data.content);
-      dispatch(getAllRoomAction(result.data.content))
+      dispatch(getAllRoomAction(result.data.content));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-}
+  };
+};
+
+export const deleteRoomApi = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.delete(`/phong-thue/${id}`);
+      // console.log(result.data.message);
+      notification.error({
+        message: 'Delete Booking Room',
+        description: result.data.message,
+        placement: 'topRight',
+      });
+      dispatch(getAllRoomApi());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const createRoomApi = (data: RoomModel) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.post('/phong-thue', data);
+      dispatch(getAllRoomApi());
+      notification.success({
+        message: 'Add Info Room',
+        description: result.data.message,
+        placement: 'topRight',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getRoomToEditApi = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.get(`/phong-thue/${id}`);
+      dispatch(getRoomToEditAction(result.data.content));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const editRoomByIdApi = (data: RoomModel) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.put(`/phong-thue/${data.id}`, data);
+      notification.success({
+        message: 'Update room',
+        description: result.data.message,
+        placement: 'topRight',
+      });
+      await dispatch(getAllRoomApi());
+      customHistory.push('/admin/management-room');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

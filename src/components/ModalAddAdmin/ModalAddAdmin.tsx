@@ -28,6 +28,7 @@ const formItemLayout = {
 
 export default function ModalAddAdmin() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
   const dispatch: AppDispatch = useDispatch();
 
   const showModal = () => {
@@ -42,6 +43,10 @@ export default function ModalAddAdmin() {
     setIsModalOpen(false);
   };
 
+  const onReset = () => {
+    form.resetFields();
+  };
+
   const onFinish = (values: any) => {
     console.log({
       ...values,
@@ -54,6 +59,7 @@ export default function ModalAddAdmin() {
       })
     );
     setIsModalOpen(false);
+    onReset();
   };
 
   return (
@@ -77,6 +83,7 @@ export default function ModalAddAdmin() {
           layout='horizontal'
           size={'middle'}
           onFinish={onFinish}
+          form={form}
         >
           <Form.Item
             name='email'

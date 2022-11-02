@@ -3,18 +3,11 @@ import { Button, Col, Form, Input, Modal, Row, Switch, Upload } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/configStore';
+import { createRoomApi, RoomModel } from '../../redux/reducer/RoomReducer';
 
 type Props = {};
 
 const { TextArea } = Input;
-
-const normFile = (e: any) => {
-  console.log('Upload event:', e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
 
 export default function ModalAddRoom({}: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,11 +26,14 @@ export default function ModalAddRoom({}: Props) {
     setIsModalOpen(false);
   };
 
-  const onFinish = (values: any) => {
-    console.log({
-      ...values,
-    });
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  const onFinish = (values: RoomModel) => {
+    dispatch(createRoomApi(values));
     setIsModalOpen(false);
+    onReset();
   };
   return (
     <div className='modal-add-admin'>
@@ -53,62 +49,136 @@ export default function ModalAddRoom({}: Props) {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={1000}
+        width={900}
+        centered
       >
         <Form
-          labelCol={{ span: 5 }}
+          labelCol={{ span: 11 }}
           wrapperCol={{ span: 8 }}
           form={form}
           onFinish={onFinish}
           initialValues={{
-            wifi:false,
-            tivi:false,
-            bep:false,
-            banLa:false,
-            banUi:false,
-            mayGiat:false,
-            dieuHoa:false,
-            hoBoi:false,
-            doXe:false
+            wifi: false,
+            tivi: false,
+            bep: false,
+            banLa: false,
+            banUi: false,
+            mayGiat: false,
+            dieuHoa: false,
+            hoBoi: false,
+            doXe: false,
           }}
         >
           <Row gutter={32}>
             <Col span={24}>
               <Form.Item
                 label='Tên phòng'
-                labelCol={{ span: 2 }}
-                wrapperCol={{ span: 20, offset: 0 }}
+                name={'tenPhong'}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 16, offset: 2 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field',
+                  },
+                ]}
               >
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label='Mã vị trí'>
+            <Col span={24}>
+              <Form.Item
+                label='Mã vị trí'
+                name={'maViTri'}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 16, offset: 2 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field',
+                  },
+                ]}
+              >
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label='Khách'>
+            <Col span={24}>
+              <Form.Item
+                label='Khách'
+                name={'khach'}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 16, offset: 2 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field',
+                  },
+                ]}
+              >
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label='Giường'>
+            <Col span={24}>
+              <Form.Item
+                label='Phòng ngủ'
+                name={'phongNgu'}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 16, offset: 2 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field',
+                  },
+                ]}
+              >
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label='Phòng ngủ'>
+            <Col span={24}>
+              <Form.Item
+                label='Giường'
+                name={'giuong'}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 16, offset: 2 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field',
+                  },
+                ]}
+              >
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label='Phòng tắm'>
+            <Col span={24}>
+              <Form.Item
+                label='Phòng tắm'
+                name={'phongTam'}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 16, offset: 2 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field',
+                  },
+                ]}
+              >
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label='Giá tiền'>
+            <Col span={24}>
+              <Form.Item
+                label='Giá tiền'
+                name={'giaTien'}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 16, offset: 2 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field',
+                  },
+                ]}
+              >
                 <Input />
               </Form.Item>
             </Col>
@@ -167,17 +237,12 @@ export default function ModalAddRoom({}: Props) {
             </Col>
             <Col span={24}>
               <Form.Item
-                name='upload'
-                label='Upload hình ảnh'
-                valuePropName='fileList'
-                getValueFromEvent={normFile}
-                extra='Extension jpg, png,...'
+                name='hinhAnh'
+                label='Link hình ảnh'
                 wrapperCol={{ span: 16, offset: 1 }}
                 labelCol={{ span: 4 }}
               >
-                <Upload name='logo' action='/upload.do' listType='picture'>
-                  <Button icon={<UploadOutlined />}>Click to upload</Button>
-                </Upload>
+                <Input />
               </Form.Item>
             </Col>
             <Col span={24}>

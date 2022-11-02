@@ -4,8 +4,9 @@ import { Button, Modal, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/configStore';
-import { getAllRoomApi, RoomModel } from '../../redux/reducer/RoomReducer';
+import { deleteRoomApi, getAllRoomApi, RoomModel } from '../../redux/reducer/RoomReducer';
 import ModalUploadRoom from '../ModalUploadRoom/ModalUploadRoom';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
@@ -14,13 +15,15 @@ scroll.y = 580;
 
 export default function TableRoom({}: Props) {
   const { arrAllRoom } = useSelector((state: RootState) => state.RoomReducer);
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
   const onDelete = ({ id }: any) => {
-    console.log(id);
+    // console.log(id);
+    dispatch(deleteRoomApi(id));
   };
   const onEdit = ({ id }: any) => {
-    console.log(id);
+    navigate(`/admin/edit-room/${id}`)
   };
 
   const columns: ColumnsType<RoomModel> = [
@@ -48,12 +51,12 @@ export default function TableRoom({}: Props) {
       title: 'Hình ảnh',
       dataIndex: 'hinhAnh',
       width: 200,
-      render: (item, _, index) => {
+      render: (item, record, index) => {
         return (
           <div key={index}>
             <Space size={'middle'}>
               <img src={item} alt={item} width={150} height={100} />
-              <ModalUploadRoom />
+              <ModalUploadRoom id={record.id} defaultImage={item} />
             </Space>
           </div>
         );

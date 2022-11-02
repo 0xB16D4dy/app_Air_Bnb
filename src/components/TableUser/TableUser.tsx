@@ -34,14 +34,14 @@ export default function TableUser({}: Props) {
       title: 'id',
       dataIndex: 'id',
       key: 'id',
-      render: (text,_,index) => <div key={index}>{text}</div>,
+      render: (text, _, index) => <div key={index}>{text}</div>,
       width: 80,
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text,_,index) => <div key={index}>{text}</div>,
+      render: (text, _, index) => <div key={index}>{text}</div>,
     },
     {
       title: 'Email',
@@ -52,7 +52,7 @@ export default function TableUser({}: Props) {
       title: 'Birthday',
       dataIndex: 'birthday',
       key: 'birthday',
-      // render:(birthday)=><div>{moment(birthday).format('MM/DD/YYYY')?moment(birthday).format('MM/DD/YYYY'):''}</div>
+      // render:(birthday)=><div>{moment(birthday).format('DD/MM/YYYY')?moment(birthday).format('DD/MM/YYYY'):''}</div>
       // render: (birthday) => (
       //   <span>
       //     {moment().diff(moment(birthday, 'DD/MM/ YYYY'), 'years')
@@ -65,7 +65,7 @@ export default function TableUser({}: Props) {
       title: 'Gender',
       dataIndex: 'gender',
       key: 'gender',
-      render: (gender,_, index) => {
+      render: (gender, _, index) => {
         return gender ? (
           <span key={index}>
             <ManOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
@@ -98,7 +98,7 @@ export default function TableUser({}: Props) {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record,index) => (
+      render: (_, record, index) => (
         <Space size='middle' key={index}>
           <Button
             icon={<EditOutlined />}
@@ -121,11 +121,11 @@ export default function TableUser({}: Props) {
     },
   ];
 
-  const onDelete = ({id}:UserModal) => {
+  const onDelete = ({ id }: UserModal) => {
     dispatch(deleteUserApi(id));
   };
-  const onEdit = ({id}:UserModal) => {
-    navigate(`/admin/edit-user/${id}`)
+  const onEdit = ({ id }: UserModal) => {
+    navigate(`/admin/edit-user/${id}`);
     // console.log(id);
   };
 

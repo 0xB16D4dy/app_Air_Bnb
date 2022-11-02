@@ -259,45 +259,51 @@ export default function Detail({}: Props) {
                     </div>
                   </div>
                 )}
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <img
-                          src={require('../../assets/icons/flat-ironing-icon.png')}
-                          alt='flat-ironing-icon'
-                        />
+                {detailRoom?.banLa && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <img
+                            src={require('../../assets/icons/flat-ironing-icon.png')}
+                            alt='flat-ironing-icon'
+                          />
+                        </div>
+                        <span className='text-item'>Bàn là</span>
                       </div>
-                      <span className='text-item'>Bàn là</span>
                     </div>
                   </div>
-                </div>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <img
-                          src={require('../../assets/icons/washing_machine-icon.png')}
-                          alt='washing_machine-icon'
-                        />
+                )}
+                {detailRoom?.mayGiat && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <img
+                            src={require('../../assets/icons/washing_machine-icon.png')}
+                            alt='washing_machine-icon'
+                          />
+                        </div>
+                        <span className='text-item'>Máy giặt</span>
                       </div>
-                      <span className='text-item'>Máy giặt</span>
                     </div>
                   </div>
-                </div>
-                <div className='col-6'>
-                  <div className='item'>
-                    <div className='item-content'>
-                      <div className='icon-item'>
-                        <img
-                          src={require('../../assets/icons/iron-icon.png')}
-                          alt='iron-icon'
-                        />
+                )}
+                {detailRoom?.banUi && (
+                  <div className='col-6'>
+                    <div className='item'>
+                      <div className='item-content'>
+                        <div className='icon-item'>
+                          <img
+                            src={require('../../assets/icons/iron-icon.png')}
+                            alt='iron-icon'
+                          />
+                        </div>
+                        <span className='text-item'>Bàn ủi</span>
                       </div>
-                      <span className='text-item'>Bàn ủi</span>
                     </div>
                   </div>
-                </div>
+                )}
                 {detailRoom?.doXe && (
                   <div className='col-6'>
                     <div className='item'>

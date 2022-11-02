@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
+  deleteLocationApi,
   getLocationApi,
   LocationModel,
 } from '../../redux/reducer/locationReducer';
 import ModalUploadLocation from '../ModalUploadLocation/ModalUploadLocation';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
@@ -17,15 +19,18 @@ scroll.y = 580;
 
 export default function TableLocation({}: Props) {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { arrLocation } = useSelector(
     (state: RootState) => state.locationReducer
   );
 
   const onDelete = ({ id }: any) => {
-    console.log(id);
+    // console.log(id);
+    dispatch(deleteLocationApi(id));
   };
   const onEdit = ({ id }: any) => {
-    console.log(id);
+    navigate(`/admin/edit-location/${id}`);
+    // console.log(id);
   };
 
   const columns: ColumnsType<LocationModel> = [
@@ -42,12 +47,12 @@ export default function TableLocation({}: Props) {
       title: 'Hình ảnh',
       dataIndex: 'hinhAnh',
       width: 300,
-      render: (item, _, index) => {
+      render: (item, record, index) => {
         return (
           <div key={index}>
             <Space size={'middle'}>
               <img src={item} alt={item} width={150} height={100} />
-            <ModalUploadLocation/>
+              <ModalUploadLocation id={record.id} defaultImage={item}/>
             </Space>
           </div>
         );
@@ -98,7 +103,7 @@ export default function TableLocation({}: Props) {
       size='middle'
       pagination={{
         pageSize: 5,
-        showSizeChanger:false,
+        showSizeChanger: false,
       }}
       scroll={scroll}
     />

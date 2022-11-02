@@ -1,18 +1,11 @@
 import { FormOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Modal, Upload } from 'antd';
-import React, { useState } from 'react'
+import { Button, Form, Input, message, Modal, Upload } from 'antd';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/configStore';
+import { createLocationApi } from '../../redux/reducer/locationReducer';
 
-type Props = {}
-
-const normFile = (e: any) => {
-  console.log('Upload event:', e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
+type Props = {};
 
 const formItemLayout = {
   labelCol: {
@@ -31,27 +24,30 @@ export default function ModalAddLocation({}: Props) {
   const [form] = Form.useForm();
 
   const showModal = () => {
-      setIsModalOpen(true);
-    };
-  
-    const handleOk = (e: any) => {
-      setIsModalOpen(false);
-    };
-  
-    const handleCancel = () => {
-      setIsModalOpen(false);
-    };
+    setIsModalOpen(true);
+  };
 
-    const onFinish = (values: any) => {
-      console.log({
-        ...values,
-        birthday: values['birthday'].format('DD/MM/YYYY'),
-      });
-      setIsModalOpen(false);
-    };
+  const handleOk = (e: any) => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    onReset();
+  };
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  const onFinish = (values: any) => {
+    // console.log(values);
+    dispatch(createLocationApi(values));
+    onReset();
+    setIsModalOpen(false);
+  };
   return (
     <div className='modal-add-admin'>
-        <Button
+      <Button
         type='primary'
         htmlType='button'
         className='btn-add-admin'
@@ -66,34 +62,59 @@ export default function ModalAddLocation({}: Props) {
         width={700}
       >
         <Form {...formItemLayout} onFinish={onFinish} form={form}>
-          <Form.Item label='Tên vị trí' name={'tenViTri'}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='Tỉnh thành' name={'tinhThanh'}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='Quốc gia' name={'quocGia'}>
-            <Input/>
+          <Form.Item
+            label='Tên vị trí'
+            name={'tenViTri'}
+            rules={[
+              {
+                required: true,
+                message: 'Please input name of location',
+              },
+            ]}
+          >
+            <Input />
           </Form.Item>
           <Form.Item
-        name="upload"
-        label="Upload hình ảnh"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
-        extra="Extension jpg, png,..."
-      >
-        <Upload name="logo" action="/upload.do" listType="picture">
-          <Button  icon={<UploadOutlined />}>Click to upload</Button>
-        </Upload>
-      </Form.Item>
-      <Form.Item wrapperCol={{ span: 8, offset: 6 }}>
-        <Button type="primary" htmlType="submit" block>
-          Submit
-        </Button>
-      </Form.Item>
-      
+            label='Tỉnh thành'
+            name={'tinhThanh'}
+            rules={[
+              {
+                required: true,
+                message: 'Please input province of location',
+              },
+              // {
+              //   pattern: new RegExp(
+              //     '^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$'
+              //   ),
+              //   message:
+              //     'Input contains only characters without numbers or spaces',
+              // },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label='Quốc gia'
+            name={'quocGia'}
+            rules={[
+              {
+                required: true,
+                message: 'Please input country of location',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name='hinhAnh' label='Link hình ảnh'>
+            <Input />
+          </Form.Item>
+          <Form.Item wrapperCol={{ span: 8, offset: 6 }}>
+            <Button type='primary' htmlType='submit' block>
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
       </Modal>
     </div>
-  )
+  );
 }
