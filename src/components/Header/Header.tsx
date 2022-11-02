@@ -95,7 +95,6 @@ const renderUserDropdownMenu = (
               key: '7',
               label: (
                 <NavLink
-                  target='_blank'
                   rel='noopener noreferrer'
                   to={`/user/${user?.id}`}
                 >
