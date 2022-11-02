@@ -70,15 +70,16 @@ const MenuDropdown = [
 export default function DashBoardTemplate({ children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
-  const role = getStoreJson(USER_INFO).role;
+  const userLogin = getStoreJson(USER_INFO);
+  const admin = userLogin?.user.role;
 
-  if (!(getStore(ACCESS_TOKEN) && role !== 'USER')) {
+  if (admin !== 'ADMIN') {
     notification.error({
       message: `Unauthorized`,
-      description: 'You are not admin!!!',
+      description: 'This page only grants access from admin!!!',
       placement: 'topRight',
     });
-    return <Navigate to='/' />;
+    return <Navigate to='/' replace />;
   }
 
   return (
@@ -112,7 +113,9 @@ export default function DashBoardTemplate({ children }: Props) {
               }
             )}
             <div className='userLogin'>
-              <span className='label-user'>ADMIN {getStoreJson(USER_INFO).name}</span>
+              <span className='label-user'>
+                ADMIN {getStoreJson(USER_INFO).name}
+              </span>
               <Dropdown
                 overlay={<Menu items={MenuDropdown} />}
                 placement='bottomRight'
