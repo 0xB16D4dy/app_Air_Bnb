@@ -71,7 +71,7 @@ export default function DashBoardTemplate({ children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const userLogin = getStoreJson(USER_INFO);
-  const admin = userLogin?.user.role;
+  const admin = userLogin?.role;
 
   if (admin !== 'ADMIN') {
     notification.error({
