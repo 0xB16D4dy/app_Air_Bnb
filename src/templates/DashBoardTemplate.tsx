@@ -73,6 +73,8 @@ export default function DashBoardTemplate({ children }: Props) {
   const userLogin = getStoreJson(USER_INFO);
   const admin = userLogin?.role;
 
+  console.log(admin)
+
   if (admin !== 'ADMIN') {
     notification.error({
       message: `Unauthorized`,
