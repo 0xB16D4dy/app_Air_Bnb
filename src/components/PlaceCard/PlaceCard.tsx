@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import {
   getLocationRecentApi,
@@ -8,15 +9,18 @@ import {
 type Props = {};
 
 export default function PlaceCard({}: Props) {
-  const { arrPlaceCard } = useSelector(
+  const { arrLocation } = useSelector(
     (state: RootState) => state.locationReducer
   );
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const renderPlaceCardItem = () => {
-    return arrPlaceCard?.map((item: LocationModel, index: number) => {
+    return arrLocation?.map((item: LocationModel, index: number) => {
       return (
-        <div className='col-3 col-wrapper' key={index}>
+        <div className='col-md-3 col-sm-6 col-wrapper' key={index} onClick={()=>{
+          navigate(`/location/${item.id}`);
+        }}>
           <div className='place__card'>
             <img className='place__card-img' src={item.hinhAnh} alt='...' />
             <div className='place__card-body'>

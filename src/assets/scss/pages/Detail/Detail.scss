@@ -10,7 +10,13 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        @media screen and (max-width: 768px) {
+          display: block;
+        }
         .rating {
+          @media screen and (max-width: 576px) {
+            width: 100%;
+          }
           text-decoration: none !important;
           .fa-star {
             color: #ffd740;
@@ -21,6 +27,9 @@
           }
         }
         .super-host {
+          @media screen and (max-width: 576px) {
+            width: 100%;
+          }
           .icon-super {
             display: inline;
             .fa-medal {
@@ -31,6 +40,9 @@
         .left-content {
           display: flex;
           align-items: center;
+          @media screen and (max-width: 576px) {
+            display: block;
+          }
           span {
             text-decoration: underline;
             font-size: 14px;
@@ -134,13 +146,32 @@
           .icon-view-all {
             margin-right: 8px;
           }
+          @media screen and (max-width: 576px) {
+            padding: 3px 10px;
+            .fa-th {
+              margin-right: 6px;
+            }
+            .text-view-all {
+              font-size: 8px;
+              font-weight: 600;
+            }
+            .icon-view-all {
+              margin-right: 6px;
+            }
+          }
         }
       }
     }
     .detail__content {
       display: flex;
+      @media screen and (max-width: 768px) {
+        display: block;
+      }
       &-left {
         width: 58.33333%;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
         .content-title {
           padding: 48px 0 24px;
           display: flex;
@@ -335,6 +366,10 @@
         margin-left: 8.33333%;
         margin-top: 48px;
         margin-bottom: 48px;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          margin-left: 0;
+        }
         .wrapper-booking {
           position: sticky;
           top: 128px;
@@ -699,7 +734,7 @@
               .ant-comment-content-detail {
                 font-size: 16px;
                 text-overflow: ellipsis;
-                .btn-view-more{
+                .btn-view-more {
                   font-size: 16px;
                   font-weight: 600;
                   color: #222222;
@@ -711,7 +746,7 @@
               }
             }
           }
-          .wrapper-btn-load-more{
+          .wrapper-btn-load-more {
             text-align: left;
             height: 48px;
             line-height: 32px;
@@ -733,7 +768,9 @@
               -moz-transition: box-shadow 0.2s ease, transform 0.1s ease;
               -ms-transition: box-shadow 0.2s ease, transform 0.1s ease;
               -o-transition: box-shadow 0.2s ease, transform 0.1s ease;
-              &:hover,&:active,&:focus{
+              &:hover,
+              &:active,
+              &:focus {
                 color: #222222;
                 background: #f7f7f7;
               }

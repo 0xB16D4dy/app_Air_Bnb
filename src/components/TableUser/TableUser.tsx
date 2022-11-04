@@ -42,6 +42,7 @@ export default function TableUser({}: Props) {
       dataIndex: 'name',
       key: 'name',
       render: (text, _, index) => <div key={index}>{text}</div>,
+      responsive: ['sm'],
     },
     {
       title: 'Email',
@@ -52,6 +53,7 @@ export default function TableUser({}: Props) {
       title: 'Birthday',
       dataIndex: 'birthday',
       key: 'birthday',
+      responsive: ['md'],
       // render:(birthday)=><div>{moment(birthday).format('DD/MM/YYYY')?moment(birthday).format('DD/MM/YYYY'):''}</div>
       // render: (birthday) => (
       //   <span>
@@ -78,6 +80,7 @@ export default function TableUser({}: Props) {
           </span>
         );
       },
+      responsive: ['md'],
     },
     {
       title: 'Role',

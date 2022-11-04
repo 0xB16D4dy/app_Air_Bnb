@@ -61,10 +61,12 @@ export default function TableLocation({}: Props) {
     {
       title: 'Tỉnh thành',
       dataIndex: 'tinhThanh',
+      responsive: ['md'],
     },
     {
       title: 'Quốc gia',
       dataIndex: 'quocGia',
+      responsive: ['md'],
     },
     {
       title: 'Action',

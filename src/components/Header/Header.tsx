@@ -19,6 +19,10 @@ type Props = {
   handleOpenLogin: (value: boolean) => void;
 };
 
+type Screen = {
+  width: number;
+};
+
 const renderUserDropdownMenu = (
   accessToken: string,
   user: User,
@@ -94,10 +98,7 @@ const renderUserDropdownMenu = (
             {
               key: '7',
               label: (
-                <NavLink
-                  rel='noopener noreferrer'
-                  to={`/user/${user?.id}`}
-                >
+                <NavLink rel='noopener noreferrer' to={`/user/${user?.id}`}>
                   Tài khoản
                 </NavLink>
               ),
@@ -238,6 +239,9 @@ export default function Header({ handleOpenLogin }: Props) {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [current, setCurrent] = useState<string>('1');
   const [keyword, setKeyword] = useState<string>('');
+  const [screenX, setScreenX] = useState<Screen>({
+    width: window.innerWidth,
+  });
   const { accessToken, user } = useSelector(
     (state: RootState) => state.accountState.myAccount
   );
@@ -248,11 +252,7 @@ export default function Header({ handleOpenLogin }: Props) {
   const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const handleScroll = () => {
-    const position = window.pageYOffset;
-    setScrollPosition(position);
-  };
-
+ 
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -262,6 +262,11 @@ export default function Header({ handleOpenLogin }: Props) {
     });
   };
 
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+  
   useLayoutEffect(() => {
     if (dropdown) {
       if (scrollPosition > 80) {
@@ -334,6 +339,18 @@ export default function Header({ handleOpenLogin }: Props) {
   };
 
   useEffect(() => {
+    let resizeFunction = () => {
+      setScreenX({
+        width: window.innerWidth,
+      });
+    };
+    window.onresize = resizeFunction;
+    return () => {
+      window.removeEventListener('resize', resizeFunction);
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(getLocationApi());
   }, [dropdown]);
 
@@ -358,7 +375,13 @@ export default function Header({ handleOpenLogin }: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className='search__dropdown'>
+                  <div
+                    className={
+                      screenX.width > 768
+                        ? 'search__dropdown'
+                        : 'search__dropdown d-none'
+                    }
+                  >
                     <div className='search__dropdown-wrapper'>
                       <div className='search__dropdown-cover'>
                         <div className='search__dropdown-tab'>
@@ -525,7 +548,13 @@ export default function Header({ handleOpenLogin }: Props) {
                     </div>
                   </div>
                 </div>
-                <div className='navbar__search'>
+                <div
+                  className={
+                    screenX.width > 768
+                      ? 'navbar__search'
+                      : 'navbar__search d-none'
+                  }
+                >
                   <div className='navbar__search-wrapper'>
                     <div className='navbar__search-content'>
                       <div className='navbar__search-left'>

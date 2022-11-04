@@ -8,19 +8,29 @@
       .place__card {
         display: flex;
         align-items: center;
+        flex-direction: column;
+        cursor: pointer;
+        transition: ease 1s;
+        -webkit-transition: ease 1s;
+        -moz-transition: ease 1s;
+        -ms-transition: ease 1s;
+        -o-transition: ease 1s;
+        &:hover {
+          opacity: 0.6;
+        }
         .place__card-img {
           display: block;
           overflow: hidden;
-          width: 50px;
-          height: 50px;
-          border-radius: 4px;
-          -webkit-border-radius: 4px;
-          -moz-border-radius: 4px;
-          -ms-border-radius: 4px;
-          -o-border-radius: 4px;
-        }
+          width: 150px;
+          height: 135px;
+          border-radius: 8px;
+          -webkit-border-radius: 8px;
+          -moz-border-radius: 8px;
+          -ms-border-radius: 8px;
+          -o-border-radius: 8px;
+}
         .place__card-body {
-          margin-left: 20px;
+          margin-top: 10px;
           .place__card-title {
             font-size: 16px;
             font-weight: 600;

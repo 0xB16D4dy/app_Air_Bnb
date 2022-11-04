@@ -9,7 +9,7 @@ export default function Footer({}: Props) {
       <div className='footer__wrapper'>
         <div className='container'>
           <div className='footer__content row'>
-            <div className='footer__item col-3'>
+            <div className='footer__item col-md-3 col-sm-6 col-12'>
               <div className='footer__item-header'>
                 <h3 className='footer__item-header-content'>Hỗ trợ</h3>
               </div>
@@ -51,7 +51,7 @@ export default function Footer({}: Props) {
                 </ul>
               </div>
             </div>
-            <div className='footer__item col-3'>
+            <div className='footer__item col-md-3 col-sm-6 col-12'>
               <div className='footer__item-header'>
                 <h3 className='footer__item-header-content'>Cộng đồng</h3>
               </div>
@@ -75,7 +75,7 @@ export default function Footer({}: Props) {
                 </ul>
               </div>
             </div>
-            <div className='footer__item col-3'>
+            <div className='footer__item col-md-3 col-sm-6 col-12'>
               <div className='footer__item-header'>
                 <h3 className='footer__item-header-content'>Đón tiếp khách</h3>
               </div>
@@ -109,7 +109,7 @@ export default function Footer({}: Props) {
                 </ul>
               </div>
             </div>
-            <div className='footer__item col-3'>
+            <div className='footer__item col-md-3 col-sm-6 col-12'>
               <div className='footer__item-header'>
                 <h3 className='footer__item-header-content'>Airbnb</h3>
               </div>

@@ -11,7 +11,6 @@ import { Layout, Menu, Avatar, Dropdown, notification } from 'antd';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import {
   ACCESS_TOKEN,
-  getStore,
   getStoreJson,
   USER_INFO,
 } from '../utils/setting';
@@ -71,7 +70,9 @@ export default function DashBoardTemplate({ children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const userLogin = getStoreJson(USER_INFO);
-  const admin = userLogin?.user?.role;
+  const admin = userLogin?.role;
+
+  console.log(admin)
 
   if (admin !== 'ADMIN') {
     notification.error({
