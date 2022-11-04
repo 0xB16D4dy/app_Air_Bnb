@@ -5,6 +5,9 @@
     min-height: calc(100vh - 80px);
     width: 768px;
     padding: 60px 24px 0;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
     h3 {
       margin-top: 18px;
       font-size: 34px;
@@ -34,6 +37,9 @@
     .listings {
       &__price {
         text-align: right;
+        @media screen and (max-width: 768px) {
+          text-align: left;
+        }
         &-total {
           color: #222222;
           font-size: 16px;
@@ -50,6 +56,9 @@
         display: flex;
         justify-content: space-between;
         margin-top: auto;
+        @media screen and (max-width: 768px) {
+          display: block;
+        }
       }
       &__ratings {
         display: flex;
@@ -58,6 +67,9 @@
         align-items: center;
         span {
           margin-left: 5px;
+        }
+        @media screen and (max-width: 768px) {
+          width: 100%;
         }
       }
       &__description {
@@ -71,6 +83,9 @@
         border-top: 1px solid #ebebeb;
         padding: 24px 0;
         display: flex;
+        @media screen and (max-width: 768px) {
+          display: block;
+        }
         &:hover {
           cursor: pointer;
           .listings__img {
@@ -90,6 +105,9 @@
         -moz-border-radius: 10px;
         -ms-border-radius: 10px;
         -o-border-radius: 10px;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
         .prev-next-icon {
           position: absolute;
           top: 50%;
@@ -159,6 +177,9 @@
         padding-left: 15px;
         display: flex;
         flex-direction: column;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
         .seperator {
           width: 32px;
           height: 1px;
@@ -168,6 +189,9 @@
       &__title {
         display: flex;
         justify-content: space-between;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
         &-icon {
           .fa-heart {
             font-size: 20px;
@@ -293,6 +317,11 @@
     top: 0;
     right: 0;
     bottom: 0;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      background: transparent;
+      position: initial;
+    }
     &-googleMap {
       height: 100vh;
       display: flex;

@@ -11,7 +11,6 @@ import { Layout, Menu, Avatar, Dropdown, notification } from 'antd';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import {
   ACCESS_TOKEN,
-  getStore,
   getStoreJson,
   USER_INFO,
 } from '../utils/setting';

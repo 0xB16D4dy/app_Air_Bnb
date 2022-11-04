@@ -40,7 +40,13 @@
         align-items: center;
         padding: 24px 0;
         border-top: 1px solid #dddddd;
+        @media screen and (max-width: 768px) {
+          display: block;
+        }
         .footer__copyright-left {
+          @media screen and (max-width: 768px) {
+            width: 100%;
+          }
           .footer__copyright-company {
             font-size: 14px;
             color: #222222;
@@ -92,11 +98,13 @@
         .footer__copyright-right {
           display: flex;
           align-items: center;
-
           .footer__copyright-lang {
             display: flex;
             margin-right: 24px;
             cursor: pointer;
+            @media screen and (max-width: 768px) {
+              width: 100%;
+            }
             .footer__copyright-icon {
               margin-right: 8px;
               .icon-global {
