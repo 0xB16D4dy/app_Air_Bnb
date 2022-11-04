@@ -73,6 +73,7 @@ export default function TableRoom({}: Props) {
           </div>
         );
       },
+      responsive: ['md'],
     },
     {
       title: <div className='text-center'>Giá tiền</div>,
@@ -83,6 +84,7 @@ export default function TableRoom({}: Props) {
           {item}&nbsp;$
         </div>
       ),
+      responsive: ['sm'],
     },
     {
       title: 'Action',

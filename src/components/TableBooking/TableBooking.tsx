@@ -51,10 +51,12 @@ export default function TableBooking({}: Props) {
     {
       title: 'Số lượng khách',
       dataIndex: 'soLuongKhach',
+      responsive: ['md'],
     },
     {
       title: 'Mã người dùng',
       dataIndex: 'maNguoiDung',
+      responsive: ['md'],
     },
     {
       title: 'Action',
