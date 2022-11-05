@@ -17,11 +17,11 @@ function UserInfo() {
 
 	return (
 		<div className='container' style={{ paddingTop: "80px" }}>
-			<Row style={{ maxWidth: "1170px", margin: "48px auto 32px" }} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-				<Col md={6} style={{}}>
+			<Row style={{ maxWidth: "1170px", margin: "48px auto 32px",  }} gutter={{ xs: 24, sm: 24, md: 24, lg: 32 }}>
+				<Col md={6}  xs={24} style={{paddingBottom: '24px'}}>
 					<UserLeftSide user={user} />
 				</Col>
-				<Col md={18}>
+				<Col md={18} xs={24} >
 					<UserRightSide user={user}/>
 				</Col>
 			</Row>

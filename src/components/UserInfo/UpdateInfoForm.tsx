@@ -17,8 +17,8 @@ import { RootState } from "../../redux/configStore";
 type Props = { user: User; setShowUpdateInfo: (value: boolean) => void };
 
 const layout = {
-	labelCol: { span: 4 },
-	wrapperCol: { span: 20 },
+	labelCol: { md: 4 },
+	wrapperCol: { md: 20 },
 };
 
 const validateMessages = {
@@ -61,7 +61,7 @@ function UpdateInfoForm(props: Props) {
 					{ name: ["user", "name"], value: userInfo?.name },
 					// { name: ["user", "email"], value: userInfo?.email },
 					{ name: ["user", "phone"], value: userInfo?.phone },
-					{ name: ["user", "birthday"], value: moment(userInfo?.birthday) },
+					{ name: ["user", "birthday"], value: moment(userInfo?.birthday) || '' },
 					{ name: ["user", "gender"], value: userInfo?.gender },
 				]}
 			>
@@ -108,7 +108,7 @@ function UpdateInfoForm(props: Props) {
 							style={{ width: "100px" }}
 						/>
 					) : (
-						<>
+						<div style={{ display: 'flex'}}>
 							<Button
 								htmlType='button'
 								danger
@@ -124,7 +124,7 @@ function UpdateInfoForm(props: Props) {
 							>
 								Submit
 							</Button>
-						</>
+						</div>
 					)}
 				</Form.Item>
 			</Form>

@@ -17,7 +17,7 @@ function UserRightSide(props: Props) {
 	const {id} = useParams()
 
 	return (
-		<div>
+		<div style={{width: '100%'}}>
 			<Title
 				level={2}
 				style={{ margin: 0 }}
