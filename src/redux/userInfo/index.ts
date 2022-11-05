@@ -45,9 +45,9 @@ export const userApi = createApi({
 		updateInfo: builder.mutation<any, any>({
 			query: (data) => {
 				return {
-					url: `/users/${data.userId}`,
+					url: `/users/${data.id}`,
 					method: "put",
-					data: data.dataUpdate,
+					data: data,
 				};
 			},
 			invalidatesTags: ["User"],

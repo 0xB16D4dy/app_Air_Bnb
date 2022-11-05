@@ -98,7 +98,9 @@ const renderUserDropdownMenu = (
             {
               key: '7',
               label: (
-                <NavLink rel='noopener noreferrer' to={`/user/${user?.id}`}>
+                <NavLink
+                  to={`user/${user?.id}`}
+                >
                   Tài khoản
                 </NavLink>
               ),

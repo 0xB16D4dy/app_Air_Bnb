@@ -45,13 +45,13 @@ function Register({}: Props) {
 	const [gender, setGender] = useState(true);
 	const [form] = Form.useForm();
 	const [register, { isSuccess }] = useRegisterMutation();
-  const navigate = useNavigate()
-  
-  useEffect(() => {
-    if(isSuccess) {
-      navigate('/true')
-    }
-  }, [isSuccess])
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (isSuccess) {
+			navigate("/true");
+		}
+	}, [isSuccess]);
 
 	const onChangeGender = (e: RadioChangeEvent) => {
 		setGender(e.target.value);
@@ -67,7 +67,6 @@ function Register({}: Props) {
 		register({ data });
 	};
 
-  
 	return (
 		<div className='register-container'>
 			<Row
@@ -80,7 +79,9 @@ function Register({}: Props) {
 				}}
 			>
 				<Col
-					span={12}
+					md={12}
+					xs={0}
+					className='img-register'
 					style={{
 						padding: "0px",
 						background: "url(./assets/img/form-v6.jpg)",
@@ -89,7 +90,7 @@ function Register({}: Props) {
 						backgroundPosition: "center",
 					}}
 				></Col>
-				<Col span={12} style={{ padding: "40px 40px", margin: "auto 0" }}>
+				<Col md={12} xs={24} style={{ padding: "40px 40px", margin: "auto 0" }}>
 					<Title style={{ textAlign: "center" }}>Register</Title>
 					<Form
 						{...formItemLayout}

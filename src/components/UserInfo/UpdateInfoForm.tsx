@@ -12,6 +12,8 @@ import {
 import moment from "moment";
 import { useUpdateInfoMutation } from "../../redux/userInfo";
 import { User } from "../../redux/signin/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configStore";
 type Props = { user: User; setShowUpdateInfo: (value: boolean) => void };
 
 const layout = {
@@ -29,18 +31,20 @@ const validateMessages = {
 
 function UpdateInfoForm(props: Props) {
 	const { user, setShowUpdateInfo } = props;
+	const { user: userInfo } = useSelector(
+		(state: RootState) => state.accountState.myAccount
+	);
 	const [updateInfo, result] = useUpdateInfoMutation();
 	const [gender, setGender] = useState(true);
 	const onFinish = (values: any) => {
 		const { user: dataUpdate } = values;
 		dataUpdate.birthday = moment(dataUpdate.birthday).format("DD-MM-YYYY");
-		updateInfo({...user,...dataUpdate});
+		updateInfo({ ...user, ...dataUpdate });
 	};
 
 	const onChangeGender = (e: RadioChangeEvent) => {
 		setGender(e.target.value);
 	};
-
 	useEffect(() => {
 		if (!result.isLoading && result.data) {
 			setShowUpdateInfo(false);
@@ -53,6 +57,13 @@ function UpdateInfoForm(props: Props) {
 				name='nest-messages'
 				onFinish={onFinish}
 				validateMessages={validateMessages}
+				fields={[
+					{ name: ["user", "name"], value: userInfo?.name },
+					// { name: ["user", "email"], value: userInfo?.email },
+					{ name: ["user", "phone"], value: userInfo?.phone },
+					{ name: ["user", "birthday"], value: moment(userInfo?.birthday) },
+					{ name: ["user", "gender"], value: userInfo?.gender },
+				]}
 			>
 				<Form.Item
 					name={["user", "name"]}
@@ -61,13 +72,13 @@ function UpdateInfoForm(props: Props) {
 				>
 					<Input />
 				</Form.Item>
-				<Form.Item
+				{/* <Form.Item
 					name={["user", "email"]}
 					label='Email'
 					rules={[{ type: "email", required: true }]}
 				>
 					<Input />
-				</Form.Item>
+				</Form.Item> */}
 				<Form.Item
 					name={["user", "phone"]}
 					label='Phone'
@@ -78,7 +89,7 @@ function UpdateInfoForm(props: Props) {
 				<Form.Item
 					name={["user", "birthday"]}
 					label='Birthday'
-					rules={[{ type: "date", required: true }]}
+					// rules={[{ type: "date", required: true }]}
 				>
 					<DatePicker format='DD-MM-YYYY' />
 				</Form.Item>
