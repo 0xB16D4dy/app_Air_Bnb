@@ -48,7 +48,7 @@ export default function Login({ children, isOpenLogin, onOpenLogin }: Props) {
 		}
 
 		if (!!accessToken && !!user) {
-			user.role?.toLocaleLowerCase() === "admin"
+			user.role === "ADMIN"
 				? navigate("/admin/management-user")
 				: navigate("/");
 		}
